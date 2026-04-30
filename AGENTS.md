@@ -4,6 +4,28 @@ This file defines the specialized agents that work on this project.
 
 ---
 
+## Current Context
+
+| Attribute | Value |
+|-----------|-------|
+| **Branch** | `003-http-response-handling` |
+| **Spec** | `specs/003-http-response-handling/spec.md` |
+| **Feature** | HTTP Response Handling |
+| **Status** | Clarify phase complete, Plan phase next |
+
+### Test Data
+- Input: `bookmarks_4_28_26.html` (283 bookmarks)
+- Issue: 279 valid after security, but classification returns "Uncategorized"
+- Need: Filter non-200 URLs, fix classification
+
+### Spec Key Points
+- Filter 4xx/5xx/timeout (remove from output)
+- GET fallback for file extensions with 403/405
+- Follow redirects with SSRF protection
+- Fix classification (not all "Uncategorized")
+
+---
+
 ## Agent 1: Senior Python Developer
 
 ### Identity
