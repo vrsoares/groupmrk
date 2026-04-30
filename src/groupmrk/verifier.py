@@ -1,4 +1,4 @@
-"""URL verification module for HTTP HEAD requests."""
+﻿"""URL verification module for HTTP HEAD requests."""
 
 import logging
 from urllib.parse import urlparse
@@ -62,16 +62,16 @@ def verify_url(url_string: str, timeout: float = DEFAULT_TIMEOUT) -> URLVerifica
             verification_skipped=False,
         )
 
-    except httpx.TLSError:
-        logger.debug(f"SSL error for URL: {url_string}")
-        return URLVerificationResult(
-            status_code=0,
-            is_reachable=False,
-            error_type="ssl",
-            verification_skipped=False,
-        )
-
     except Exception as e:
+        error_str = str(e).lower()
+        if "ssl" in error_str or "tls" in error_str or "certificate" in error_str:
+            logger.debug(f"SSL error for URL: {url_string}")
+            return URLVerificationResult(
+                status_code=0,
+                is_reachable=False,
+                error_type="ssl",
+                verification_skipped=False,
+            )
         logger.debug(f"Error verifying URL {url_string}: {e}")
         return URLVerificationResult(
             status_code=0,
