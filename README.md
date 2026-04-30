@@ -161,21 +161,63 @@ groupmrk --help
 
 ### Quick Start (5 minutes)
 
-1. Export your bookmarks from your browser:
-   - **Chrome**: Click three dots → Bookmarks → Bookmark manager → Export
-   - **Firefox**: Click three lines → Bookmarks → Show all bookmarks → Import and Backup → Export
-   - **Edge**: Click three dots → Favorites → Export favorites
+#### Step 1: Export Your Bookmarks
+1. Open your browser (Chrome, Firefox, Edge)
+2. Find the export option:
+   - **Chrome**: Menu (three dots) → Bookmarks → Bookmark manager → Export
+   - **Firefox**: Menu (three lines) → Bookmarks → Show all bookmarks → Import and Backup → Export
+   - **Edge**: Menu (three dots) → Favorites → Export favorites
+3. When saving, name the file: **bookmarks.html**
+4. Save it in your Desktop or Downloads folder (for now)
 
-2. Save the file (let's call it "bookmarks.html")
+#### Step 2: Copy to Project Folder
+1. Go to your Desktop or Downloads folder
+2. Find the "bookmarks.html" file you just created
+3. Copy it (right-click → Copy, or press Ctrl+C)
+4. Go to the folder where you extracted this project (where this README is)
+5. Paste the file there (right-click → Paste, or press Ctrl+V)
 
-3. Open terminal/command prompt
+#### Step 3: Open Terminal
+1. **Windows**: Press the Windows key + R, type "cmd", press Enter
+   - A black window will appear (Command Prompt)
+2. **macOS**: Press Cmd + Space, type "Terminal", press Enter
+   - A white/gray window will appear
+3. **Linux**: Press Ctrl + Alt + T
+   - A terminal window will appear
 
-4. Navigate to the folder where you saved bookmarks.html
-   - Use `cd` command to change to that folder
+#### Step 4: Navigate to the Folder
+In your terminal, you need to go to the folder where you pasted bookmarks.html.
 
-5. Run: `groupmrk import bookmarks.html --output organized.html --mock`
+**If you extracted the project to Desktop (Windows):**
+```
+cd Desktop\groupmrk
+```
+(Press Enter after typing)
 
-6. Open "organized.html" in your browser and import it!
+**If you extracted the project to Desktop (macOS/Linux):**
+```
+cd Desktop/groupmrk
+```
+(Press Enter after typing)
+
+**Tip**: After pressing Enter, you should see the folder name at the beginning of the line, like:
+- Windows: `C:\Users\YourName\Desktop\groupmrk>`
+- macOS: `~/Desktop/groupmrk$`
+
+#### Step 5: Run the Program
+Now type this command and press Enter:
+```
+groupmrk import bookmarks.html --output organized.html --mock
+```
+
+Wait a few seconds... when it finishes, you will see "organized.html" in your folder!
+
+#### Step 6: Import Back to Browser
+1. Open your browser
+2. Find the import option (same as export, but choose "Import")
+3. Select "organized.html" and import!
+
+Done! Your bookmarks are now organized!
 
 ---
 
@@ -361,21 +403,63 @@ groupmrk --help
 
 ### Inicio Rapido (5 minutos)
 
-1. Exporte seus favoritos do navegador:
-   - **Chrome**: Clique em tres pontos → Favoritos → Gerenciador de favoritos → Exportar
-   - **Firefox**: Clique em tres linhas → Favoritos → Mostrar todos → Importar e Exportar → Exportar
-   - **Edge**: Clique em tres pontos → Favoritos → Exportar favoritos
+#### Passo 1: Exportar Seus Favoritos
+1. Abra seu navegador (Chrome, Firefox, Edge)
+2. Encontre a opcao de exportar:
+   - **Chrome**: Menu (tres pontos) → Favoritos → Gerenciador de favoritos → Exportar
+   - **Firefox**: Menu (tres linhas) → Favoritos → Mostrar todos → Importar e Exportar → Exportar
+   - **Edge**: Menu (tres pontos) → Favoritos → Exportar favoritos
+3. Ao salvar, nomeie o arquivo como: **bookmarks.html**
+4. Salve na pasta Area de Trabalho ou Downloads (por enquanto)
 
-2. Salve o arquivo (chame de "favoritos.html")
+#### Passo 2: Copiar para a Pasta do Projeto
+1. Va ate sua Area de Trabalho ou Downloads
+2. Encontre o arquivo "bookmarks.html" que voce acabou de criar
+3. Copie (clique com botao direito → Copiar, ou pressione Ctrl+C)
+4. Va ate a pasta onde voce extraiu este projeto (onde esta este README)
+5. Cole o arquivo ali (clique com botao direito → Colar, ou pressione Ctrl+V)
 
-3. Abra o terminal/prompt de comando
+#### Passo 3: Abrir o Terminal
+1. **Windows**: Pressione a tecla Windows + R, digite "cmd", pressione Enter
+   - Uma janela preta aparecera (Prompt de Comando)
+2. **macOS**: Pressione Cmd + Space, digite "Terminal", pressione Enter
+   - Uma janela branca/cinza aparecera
+3. **Linux**: Pressione Ctrl + Alt + T
+   - Uma janela de terminal aparecera
 
-4. Va ate a pasta onde voce salvou favoritos.html
-   - Use o comando `cd` para mudar para essa pasta
+#### Passo 4: Navegar ate a Pasta
+No terminal, voce precisa ir ate a pasta onde voce colou bookmarks.html.
 
-5. Execute: `groupmrk import favoritos.html --output organizados.html --mock`
+**Se voce extraiu o projeto na Area de Trabalho (Windows):**
+```
+cd Desktop\groupmrk
+```
+(Pressione Enter depois de digitar)
 
-6. Abra "organizados.html" no navegador e importe!
+**Se voce extraiu o projeto na Area de Trabalho (macOS/Linux):**
+```
+cd Desktop/groupmrk
+```
+(Pressione Enter depois de digitar)
+
+**Dica**: Depois de pressionar Enter, voce deve ver o nome da pasta no comeco da linha, como:
+- Windows: `C:\Users\SeuNome\Desktop\groupmrk>`
+- macOS: `~/Desktop/groupmrk$`
+
+#### Passo 5: Executar o Programa
+Agora digite este comando e pressione Enter:
+```
+groupmrk import bookmarks.html --output organized.html --mock
+```
+
+Aguarde alguns segundos... quando terminar, voce verah "organized.html" na sua pasta!
+
+#### Passo 6: Importar de Volta no Navegador
+1. Abra seu navegador
+2. Encontre a opcao de importar (mesma que exportar, mas escolha "Importar")
+3. Selecione "organized.html" e importe!
+
+Pronto! Seus favoritos estao organizados!
 
 ---
 
