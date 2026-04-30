@@ -4,6 +4,44 @@ This file defines the specialized agents that work on this project.
 
 ---
 
+## Current Context
+
+| Attribute | Value |
+|-----------|-------|
+| **Branch** | `003-http-response-handling` |
+| **Spec** | `specs/003-http-response-handling/spec.md` |
+| **Feature** | HTTP Response Handling |
+| **Status** | Implementation complete, Final review pending |
+
+### Test Data
+- Input: `bookmarks_4_28_26.html` (283 bookmarks)
+- Issue: 279 valid after security, but classification returns "Uncategorized"
+- Need: Filter non-200 URLs, fix classification
+
+### Spec Key Points
+- Filter 4xx/5xx/timeout (remove from output)
+- GET fallback for file extensions with 403/405
+- Follow redirects with SSRF protection
+- Fix classification (not all "Uncategorized")
+
+### Implementation Complete
+- ✅ Phase 1: Data models (VerificationOutcome, Bookmark fields, constants)
+- ✅ Phase 2: verifier.py (SSRF, redirects, GET fallback, concurrency)
+- ✅ Phase 3: CLI integration (Step 2/5 verification)
+- ⏳ Phase 4: Classification fix (pending)
+- ⏳ Phase 5: Statistics display (pending)
+- ✅ Phase 6: Tests (35 tests passing)
+
+### Security Features
+- Block private IPs always (initial + redirects)
+- Content-Length only (no body read) for GET fallback
+- Port restriction (80/443 only)
+- Request cap (5000 max)
+- Credential URL blocking
+- Sensitive param redaction
+
+---
+
 ## Agent 1: Senior Python Developer
 
 ### Identity
