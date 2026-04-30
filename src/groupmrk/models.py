@@ -1,4 +1,14 @@
-"""Data models for bookmarks manager."""
+"""Data models for bookmarks manager.
+
+These are the building blocks that represent your bookmarks.
+
+Simple language guide:
+- URL: A website address that has been checked for safety
+- Bookmark: A saved link with its title and address
+- Theme: A category (like "Programming" or "News")
+- BookmarkCollection: All your bookmarks grouped together
+- InvalidURLLog: A record of unsafe URLs that were blocked
+"""
 
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -88,9 +98,11 @@ class CollectionMetadata:
     """Metadata about the bookmark collection."""
 
     total_count: int = 0
-    categorized_count: int = 0
-    uncategorized_count: int = 0
-    theme_count: int = 0
+    valid_count: int = 0
+    invalid_count: int = 0
+    unreachable_count: int = 0
+    duplicate_count: int = 0
+    local_network_count: int = 0
     source_file: Optional[str] = None
     processed_at: Optional[datetime] = None
     # HTTP verification statistics
@@ -159,6 +171,8 @@ EMOJI_MAP: dict[str, str] = {
     "Reference": "📋",
     "Images": "🖼️",
     "Videos": "🎥",
+    "Local Network": "🔗",
+    "IP Address": "🌐",
     "Uncategorized": "📌",
 }
 

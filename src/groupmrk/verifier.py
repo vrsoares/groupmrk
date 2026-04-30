@@ -101,6 +101,8 @@ def _is_private_ip(ip_str: str) -> bool:
 
     return False
 
+    return False
+
 
 def _resolve_and_check_ip(hostname: str) -> Optional[str]:
     """Resolve hostname and check if IP is private.
