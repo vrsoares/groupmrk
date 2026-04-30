@@ -21,6 +21,15 @@ You don't need to know anything about programming to use it!
 
 ### How to Install (Step by Step)
 
+**IMPORTANT: Where to Run the Install Command**
+
+Before installing, make sure you're in a suitable folder:
+
+- **Windows**: After opening Command Prompt, you start in your user folder (like `C:\Users\YourName`)
+- **macOS/Linux**: After opening Terminal, you start in your home folder (like `~` or `/Users/YourName`)
+
+That's fine! You can run the install command from there. The program will be installed automatically.
+
 Choose your computer below and follow the steps:
 
 #### Windows
@@ -220,6 +229,15 @@ Voce nao precisa saber programacao para usar!
 - **Sem Cadastro**: Sem login, sem senha, sem chave de API
 
 ### Como Instalar (Passo a Passo)
+
+**IMPORTANTE: Onde Executar o Comando de Instalacao**
+
+Antes de instalar, certifique-se de estar em uma pasta adequada:
+
+- **Windows**: Ao abrir o Prompt de Comando, voce comeca na sua pasta de usuario (como `C:\Users\SeuNome`)
+- **macOS/Linux**: Ao abrir o Terminal, voce comeca na sua pasta pessoal (como `~` ou `/Users/SeuNome`)
+
+Esta tudo bem! Voce pode executar o comando de instalacao de la. O programa sera instalado automaticamente.
 
 Escolha seu computador abaixo e siga os passos:
 
