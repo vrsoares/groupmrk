@@ -116,7 +116,7 @@ description: "Task list for 001-bookmarks-manager implementation"
 - [X] T025 Create sample bookmark fixture in tests/fixtures/sample-bookmarks.html
 - [X] T026 Performance optimization: 500 bookmarks in <30s, search 1000 bookmarks in <5s (mock mode achieves <2s)
 - [X] T027 Zero-config validation: works without any user configuration
-- [ ] T028 Update README.md with bilingual EN/PT documentation
+- [X] T028 Update README.md with bilingual EN/PT documentation
 
 ---
 

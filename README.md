@@ -1,109 +1,355 @@
 # groupmrk
 
-An open-source browser bookmarks manager powered by LLM. Organize, search, and categorize your bookmarks using artificial intelligence.
+Um programa de organização de favoritos do navegador pomoccedil; IA. Organize, pesquise e categorize seus favoritos usando intelig挡cia artificial.
 
 ---
 
 ## English
 
-### Overview
+### What is this?
 
-groupmrk is a CLI tool that helps you manage your browser bookmarks with the power of Large Language Models. It can automatically categorize, tag, and search through your bookmarks using natural language queries.
+**groupmrk** is a simple program that helps you organize your browser bookmarks (also called "favorites") using artificial intelligence. You give it your bookmarks, and it automatically organizes them into groups like "Development", "Tutorials", "News", and more.
 
-### Features
+You don't need to know anything about programming to use it!
 
-- **AI-Powered Categorization**: Automatically organize bookmarks into meaningful groups
-- **Natural Language Search**: Find bookmarks using everyday language
-- **Tag Management**: Intelligent auto-tagging based on content analysis
-- **Import/Export**: Support for standard browser bookmark formats
-- **Cross-Browser**: Works with Chrome, Firefox, Edge, and others
+### What can it do?
 
-### Installation
+- **Automatic Organization**: Put your bookmarks in, get them organized automatically
+- **Natural Search**: Find bookmarks by typing "python tutorials" instead of searching in folders
+- **Works Everywhere**: Works with Chrome, Firefox, Edge, and other browsers
+- **No Account Needed**: No login, no password, no API key required
 
-```bash
-pip install groupmrk
-```
+### How to Install (Step by Step)
 
-### Usage
+Choose your computer below and follow the steps:
 
-```bash
-# Import bookmarks from a file
-groupmrk import bookmarks.html
+#### Windows
 
-# List all bookmarks
-groupmrk list
+1. **Download Python**
+   - Go to: https://www.python.org/downloads/
+   - Click the button: "Download Python 3.12.x"
+   - Wait for the file to download
 
-# Search bookmarks using natural language
-groupmrk search "python tutorials"
+2. **Install Python**
+   - Double-click the downloaded file
+   - **IMPORTANT**: Check the box that says "Add Python to PATH" (very important!)
+   - Click "Install Now"
+   - Wait for it to finish
+   - Close the window
 
-# Auto-categorize uncategorized bookmarks
-groupmrk organize
+3. **Install groupmrk**
+   - Open Command Prompt (press Windows key + R, type "cmd", press Enter)
+   - Type: `pip install groupmrk`
+   - Press Enter and wait
 
-# Export bookmarks
-groupmrk export bookmarks_export.html
-```
+4. **Done!** Now you can use it!
 
-### Configuration
+#### macOS (Apple)
 
-Create a `.env` file in your project directory:
+1. **Check if you have Python**
+   - Open Terminal (press Cmd + Space, type "Terminal", press Enter)
+   - Type: `python3 --version`
+   - If it says "command not found", continue below
 
-```env
-OPENAI_API_KEY=your_api_key_here
-```
+2. **Install Python**
+   - Go to: https://www.python.org/downloads/
+   - Click: "Download Python 3.12.x"
+   - Open the downloaded file and follow the steps
 
-### License
+3. **Install groupmrk**
+   - In Terminal, type: `pip3 install groupmrk`
+   - Press Enter and wait
 
-MIT
+4. **Done!**
+
+#### Linux (Ubuntu and similar)
+
+1. **Open Terminal**
+   - Press Ctrl + Alt + T
+
+2. **Install Python** (if not installed)
+   - Type: `sudo apt update`
+   - Press Enter
+   - Type: `sudo apt install python3 python3-pip`
+   - Press Enter and type your password
+
+3. **Install groupmrk**
+   - Type: `pip3 install groupmrk`
+   - Press Enter
+
+4. **Done!**
+
+#### Linux (Fedora)
+
+1. **Open Terminal**
+
+2. **Install Python**
+   - Type: `sudo dnf install python3 pip`
+   - Press Enter
+
+3. **Install groupmrk**
+   - Type: `pip3 install groupmrk`
+
+4. **Done!**
+
+#### Linux (Debian)
+
+1. **Open Terminal**
+
+2. **Install Python**
+   - Type: `sudo apt update && sudo apt install python3 python3-pip`
+   - Press Enter
+
+3. **Install groupmrk**
+   - Type: `pip3 install groupmrk`
+
+4. **Done!**
 
 ---
 
-## Português
+## How to Use (Examples)
 
-### Visão Geral
-
-groupmrk é uma ferramenta de CLI que ajuda você a gerenciar seus favoritos do navegador com o poder dos Modelos de Linguagem de Grande Escala. Ele pode categorizar, marcar e pesquisar automaticamente em seus favoritos usando linguagem natural.
-
-### Recursos
-
-- **Categorização com IA**: Organize automaticamente favoritos em grupos significativos
-- **Pesquisa em Linguagem Natural**: Encontre favoritos usando linguagem cotidiana
-- **Gerenciamento de Tags**: Marcação automática baseada em análise de conteúdo
-- **Importar/Exportar**: Suporte para formatos padrão de favoritos do navegador
-- **Multi-Navegador**: Funciona com Chrome, Firefox, Edge e outros
-
-### Instalação
+### 1. Organize Your Bookmarks
 
 ```bash
-pip install groupmrk
+groupmrk import my_bookmarks.html --output organized.html --mock
 ```
 
-### Uso
+This will:
+- Read your bookmarks from "my_bookmarks.html"
+- Organize them using AI (the --mock flag makes it fast for testing)
+- Save the organized version to "organized.html"
+
+### 2. Search Your Bookmarks
 
 ```bash
-# Importar favoritos de um arquivo
-groupmrk import favoritos.html
-
-# Listar todos os favoritos
-groupmrk list
-
-# Pesquisar favoritos usando linguagem natural
-groupmrk search "tutoriais python"
-
-# Categorizar favoritos não categorizados
-groupmrk organize
-
-# Exportar favoritos
-groupmrk export favoritos_export.html
+groupmrk search "python tutorials" organized.html
 ```
 
-### Configuração
+This will find bookmarks about Python tutorials!
 
-Crie um arquivo `.env` no diretório do seu projeto:
+### 3. Export to Browser Format
 
-```env
-OPENAI_API_KEY=sua_chave_api_aqui
+```bash
+groupmrk export organized.html final_bookmarks.html
 ```
 
-### Licença
+### 4. Get Help
 
-MIT
+```bash
+groupmrk --help
+```
+
+---
+
+### Quick Start (5 minutes)
+
+1. Export your bookmarks from your browser:
+   - **Chrome**: Click three dots → Bookmarks → Bookmark manager → Export
+   - **Firefox**: Click three lines → Bookmarks → Show all bookmarks → Import and Backup → Export
+   - **Edge**: Click three dots → Favorites → Export favorites
+
+2. Save the file (let's call it "bookmarks.html")
+
+3. Open terminal/command prompt
+
+4. Run: `groupmrk import bookmarks.html --output organized.html --mock`
+
+5. Open "organized.html" in your browser and import it!
+
+---
+
+### Troubleshooting
+
+**"pip" is not recognized (Windows)**
+- Make sure you checked "Add Python to PATH" during installation
+- Or try: `python -m pip install groupmrk`
+
+**"command not found" (macOS/Linux)**
+- Try using `pip3` instead of `pip`
+
+**It says "No LLM client available"**
+- Make sure you have internet connection
+- Or use the `--mock` flag for testing
+
+---
+
+### License
+
+MIT - Free to use, modify, and share!
+
+---
+
+## Portugues
+
+### O que eacute; isto?
+
+**groupmrk** eacute; um programa que ajuda vocecirc; a organizar seus favoritos do navegador usando intelig挡cia artificial. Vocecirc; entrega os favoritos e ele organiza automaticamente em grupos como "Desenvolvimento", "Tutoriais", "Noticias", e mais.
+
+Vocecirc; nao precisa saber programacao para usar!
+
+### O que ele faz?
+
+- **Organizacao Automatica**: Coloque os favoritos, receber organizezados
+- **Pesquisa Natural**: Encontre favoritos digitando "tutoriais python" em vez de procurar em pastas
+- **Funciona em Todos**: Chrome, Firefox, Edge e outros navegadores
+- **Sem Cadastro**: Sem login, sem senha, sem chave de API
+
+### Como Instalar (Passo a Passo)
+
+Escolha seu computador abaixo e siga os passos:
+
+#### Windows
+
+1. **Baixar Python**
+   - Va para: https://www.python.org/downloads/
+   - Clique no botao: "Download Python 3.12.x"
+   - Aguarde o download
+
+2. **Instalar Python**
+   - Clique duas vezes no arquivo baixado
+   - **IMPORTANTE**: Marque a caixa "Add Python to PATH" (muito importante!)
+   - Clique em "Install Now"
+   - Aguarde terminar
+   - Feche a janela
+
+3. **Instalar groupmrk**
+   - Abra o Prompt de Comando (pressione tecla Windows + R, digite "cmd", pressione Enter)
+   - Digite: `pip install groupmrk`
+   - Pressione Enter e aguarde
+
+4. **Pronto!** Agora vocecirc; pode usar!
+
+#### macOS (Apple)
+
+1. **Verificar se tem Python**
+   - Abra o Terminal (pressione Cmd + Space, digite "Terminal", pressione Enter)
+   - Digite: `python3 --version`
+   - Se aparecer "command not found", continue abaixo
+
+2. **Instalar Python**
+   - Va para: https://www.python.org/downloads/
+   - Clique: "Download Python 3.12.x"
+   - Abra o arquivo baixado e siga os passos
+
+3. **Instalar groupmrk**
+   - No Terminal, digite: `pip3 install groupmrk`
+   - Pressione Enter e aguarde
+
+4. **Pronto!**
+
+#### Linux (Ubuntu e similares)
+
+1. **Abrir Terminal**
+   - Pressione Ctrl + Alt + T
+
+2. **Instalar Python** (se nao tiver)
+   - Digite: `sudo apt update`
+   - Pressione Enter
+   - Digite: `sudo apt install python3 python3-pip`
+   - Pressione Enter e digite sua senha
+
+3. **Instalar groupmrk**
+   - Digite: `pip3 install groupmrk`
+   - Pressione Enter
+
+4. **Pronto!**
+
+#### Linux (Fedora)
+
+1. **Abrir Terminal**
+
+2. **Instalar Python**
+   - Digite: `sudo dnf install python3 pip`
+   - Pressione Enter
+
+3. **Instalar groupmrk**
+   - Digite: `pip3 install groupmrk`
+
+4. **Pronto!**
+
+#### Linux (Debian)
+
+1. **Abrir Terminal**
+
+2. **Instalar Python**
+   - Digite: `sudo apt update && sudo apt install python3 python3-pip`
+   - Pressione Enter
+
+3. **Instalar groupmrk**
+   - Digite: `pip3 install groupmrk`
+
+4. **Pronto!**
+
+---
+
+## Como Usar (Exemplos)
+
+### 1. Organizar seus Favoritos
+
+```bash
+groupmrk import meus_favoritos.html --output organizados.html --mock
+```
+
+ Isto ira:
+ - Ler seus favoritos de "meus_favoritos.html"
+ - Organizar usando IA (a flag --mock torna rapido para testar)
+ - Salvar a versao organizada em "organizados.html"
+
+### 2. Pesquisar seus Favoritos
+
+```bash
+groupmrk search "tutoriais python" organizados.html
+```
+
+Isso encontrar favorites sobre tutoriais Python!
+
+### 3. Exportar para Formato do Navegador
+
+```bash
+groupmrk export organizados.html favoritos_finais.html
+```
+
+### 4. Obter Ajuda
+
+```bash
+groupmrk --help
+```
+
+---
+
+### Inicio Rapido (5 minutos)
+
+1. Exporte seus favoritos do navegador:
+   - **Chrome**: Clique em tres pontos → Favoritos → Gerenciador de favoritos → Exportar
+   - **Firefox**: Clique em tres linhas → Favoritos → Mostrar todos → Importar e Exportar → Exportar
+   - **Edge**: Clique em tres pontos → Favoritos → Exportar favoritos
+
+2. Salve o arquivo (chame de "favoritos.html")
+
+3. Abra o terminal/prompt de comando
+
+4. Execute: `groupmrk import favoritos.html --output organizados.html --mock`
+
+5. Abra "organizados.html" no navegador e importe!
+
+---
+
+### Solucao de Problemas
+
+"pip" nao e reconhecido (Windows)
+- Certifique-se de ter marcado "Add Python to PATH" durante a instalacao
+- Ou tente: `python -m pip install groupmrk`
+
+"command not found" (macOS/Linux)
+- Tente usar `pip3` em vez de `pip`
+
+Diz "No LLM client available"
+- Verifique se tem conexao com a internet
+- Ou use a flag `--mock` para testar
+
+---
+
+### Licenca
+
+MIT - Livre para usar, modificar e compartilhar!
