@@ -56,9 +56,9 @@
 
 ### Implementation
 
-- [ ] T022 [P] [US2] Implement normalize_url() function in src/groupmrk/validator.py
-- [ ] T023 [US2] Implement deduplication logic in parser.py in src/groupmrk/parser.py
-- [ ] T024 [US2] Preserve first occurrence, discard duplicates in src/groupmrk/parser.py
+- [X] T022 [P] [US2] Implement normalize_url() function in src/groupmrk/validator.py
+- [X] T023 [US2] Implement deduplication logic in parser.py in src/groupmrk/parser.py
+- [X] T024 [US2] Preserve first occurrence, discard duplicates in src/groupmrk/parser.py
 
 ### Tests
 
@@ -72,9 +72,9 @@
 
 ### Implementation
 
-- [ ] T026 [P] [US3] Implement is_local_url() detection in src/groupmrk/validator.py
-- [ ] T027 [P] [US3] Add Local Network emoji (🔗) to EMOJI_MAP in src/groupmrk/models.py
-- [ ] T028 [US3] Add local network categorization in parser.py in src/groupmrk/parser.py
+- [X] T026 [P] [US3] Implement is_local_url() detection in src/groupmrk/validator.py
+- [X] T027 [P] [US3] Add Local Network emoji (🔗) to EMOJI_MAP in src/groupmrk/models.py
+- [X] T028 [US3] Add local network categorization in parser.py in src/groupmrk/parser.py
 - [ ] T029 [US3] Reject non-RFC1918 internal IP ranges in src/groupmrk/validator.py
 
 ### Tests
@@ -89,8 +89,8 @@
 
 ### Implementation
 
-- [ ] T031 [P] [US4] Implement is_ip_address() detection in src/groupmrk/validator.py
-- [ ] T032 [US4] Add IP-based URL categorization in parser.py in src/groupmrk/parser.py
+- [X] T031 [P] [US4] Implement is_ip_address() detection in src/groupmrk/validator.py
+- [X] T032 [US4] Add IP-based URL categorization in parser.py in src/groupmrk/parser.py
 
 ### Tests
 

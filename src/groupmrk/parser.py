@@ -16,7 +16,7 @@ from typing import Optional
 from bs4 import BeautifulSoup, Tag
 
 from .models import Bookmark, BookmarkCollection
-from .validator import validate_url, redact_sensitive_params
+from .validator import validate_url, redact_sensitive_params, normalize_url, is_local_url, is_ip_address
 
 logger = logging.getLogger(__name__)
 
@@ -85,9 +85,38 @@ class BookmarkParser:
         logger.debug("Searching for bookmarks and folders")
         self._find_folder_context(soup, collection)
 
+        logger.debug("Applying deduplication")
+        seen_normalized: set[str] = set()
+        unique_bookmarks: list[Bookmark] = []
+        duplicate_count = 0
+
+        for bookmark in collection.bookmarks:
+            normalized = normalize_url(bookmark.url)
+            if normalized and normalized in seen_normalized:
+                duplicate_count += 1
+                logger.debug(f"Duplicate URL removed: {bookmark.url[:50]}...")
+            else:
+                if normalized:
+                    seen_normalized.add(normalized)
+                unique_bookmarks.append(bookmark)
+
+        collection.bookmarks = unique_bookmarks
+
+        logger.debug("Categorizing local network and IP addresses")
+        local_network_count = 0
+
+        for bookmark in collection.bookmarks:
+            if is_local_url(bookmark.url):
+                collection.assign_theme(bookmark, "Local Network")
+                local_network_count += 1
+            elif is_ip_address(bookmark.url):
+                collection.assign_theme(bookmark, "IP Address")
+
         collection.metadata.total_count = len(collection.bookmarks) + len(collection.invalid_urls)
         collection.metadata.valid_count = len(collection.bookmarks)
         collection.metadata.invalid_count = len(collection.invalid_urls)
+        collection.metadata.duplicate_count = duplicate_count
+        collection.metadata.local_network_count = local_network_count
         collection.metadata.categorized_count = sum(
             1 for b in collection.bookmarks if b.theme is not None
         )
