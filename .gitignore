@@ -9,6 +9,9 @@ wheels/
 # Virtual environments
 .venv
 
+# Test data
+bookmarks_*.html
+
 # Dot-folders (except .specify/memory and .specify/templates)
 .mypy_cache
 .opencode
