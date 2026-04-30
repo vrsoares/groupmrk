@@ -1,0 +1,18 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Dot-folders (except .specify/memory and .specify/templates)
+.mypy_cache
+.opencode
+.pytest_cache
+.specify/*
+!.specify/memory/
+!.specify/templates/
