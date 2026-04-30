@@ -11,16 +11,18 @@
 
 ## Phase 1: Setup
 
-- [ ] T001 Install httpx dependency (verify in pyproject.toml)
+- [ ] T001 Install httpx dependency (add to pyproject.toml if needed)
 - [ ] T002 [P] Create src/groupmrk/validator.py (empty module structure)
 - [ ] T003 [P] Create src/groupmrk/verifier.py (empty module structure)
+- [ ] T004 Update src/groupmrk/__init__.py exports for new modules
 
 ## Phase 2: Foundational
 
-- [ ] T004 Extend models.py with ValidationResult class in src/groupmrk/models.py
-- [ ] T005 Extend models.py with URLVerificationResult class in src/groupmrk/models.py
-- [ ] T006 Extend models.py with InvalidURLLog class in src/groupmrk/models.py
-- [ ] T007 Extend BookmarkCollection with invalid_urls and unreachable_urls fields in src/groupmrk/models.py
+- [ ] T005 Extend models.py with URL value object class in src/groupmrk/models.py
+- [ ] T006 Extend models.py with ValidationResult class in src/groupmrk/models.py
+- [ ] T007 Extend models.py with URLVerificationResult class in src/groupmrk/models.py
+- [ ] T008 Extend models.py with InvalidURLLog class in src/groupmrk/models.py
+- [ ] T009 Extend BookmarkCollection with invalid_urls and unreachable_urls fields in src/groupmrk/models.py
 
 ## Phase 3: User Story 1 - Validate URLs with Security Checks (P1)
 
@@ -30,18 +32,21 @@
 
 ### Implementation
 
-- [ ] T008 [P] [US1] Implement validate_url() function in src/groupmrk/validator.py
-- [ ] T009 [P] [US1] Implement detect_sql_injection() pattern detection in src/groupmrk/validator.py
-- [ ] T010 [P] [US1] Implement detect_xss() pattern detection in src/groupmrk/validator.py
-- [ ] T011 [P] [US1] Implement detect_path_traversal() pattern detection in src/groupmrk/validator.py
-- [ ] T012 [US1] Integrate validation into parser.py parse flow in src/groupmrk/parser.py
-- [ ] T013 [US1] Add invalid URL logging to collection in src/groupmrk/parser.py
-- [ ] T014 [US1] Output validation summary to console in src/groupmrk/cli.py
+- [ ] T010 [P] [US1] Implement validate_url() function in src/groupmrk/validator.py
+- [ ] T011 [P] [US1] Implement detect_sql_injection() pattern detection in src/groupmrk/validator.py
+- [ ] T012 [P] [US1] Implement detect_xss() pattern detection in src/groupmrk/validator.py
+- [ ] T013 [P] [US1] Implement detect_path_traversal() pattern detection in src/groupmrk/validator.py
+- [ ] T014 [P] [US1] Implement detect_invalid_characters() validation in src/groupmrk/validator.py
+- [ ] T015 [US1] Integrate validation into parser.py parse flow in src/groupmrk/parser.py
+- [ ] T016 [US1] Add invalid URL logging to collection (InvalidURLLog) in src/groupmrk/parser.py
+- [ ] T017 [US1] Output validation summary to console with valid/invalid counts in src/groupmrk/cli.py
+- [ ] T018 [US1] Implement secure logging (exclude sensitive query params from logs) in src/groupmrk/validator.py
 
 ### Tests
 
-- [ ] T015 [P] [US1] Create tests/unit/test_validator.py with pattern detection tests
-- [ ] T016 [P] [US1] Add validation integration tests in tests/unit/test_parser.py
+- [ ] T019 [P] [US1] Create tests/unit/test_validator.py with pattern detection tests
+- [ ] T020 [P] [US1] Add validation integration tests in tests/unit/test_parser.py
+- [ ] T021 [P] [US1] Add edge case tests for malformed URLs in tests/unit/test_validator.py
 
 ## Phase 4: User Story 2 - Remove Duplicate Bookmarks (P2)
 
@@ -51,13 +56,13 @@
 
 ### Implementation
 
-- [ ] T017 [P] [US2] Implement normalize_url() function in src/groupmrk/validator.py
-- [ ] T018 [US2] Implement deduplication logic in parser.py in src/groupmrk/parser.py
-- [ ] T019 [US2] Preserve first occurrence, discard duplicates in src/groupmrk/parser.py
+- [ ] T022 [P] [US2] Implement normalize_url() function in src/groupmrk/validator.py
+- [ ] T023 [US2] Implement deduplication logic in parser.py in src/groupmrk/parser.py
+- [ ] T024 [US2] Preserve first occurrence, discard duplicates in src/groupmrk/parser.py
 
 ### Tests
 
-- [ ] T020 [P] [US2] Add deduplication tests in tests/unit/test_parser.py
+- [ ] T025 [P] [US2] Add deduplication tests in tests/unit/test_parser.py
 
 ## Phase 5: User Story 3 - Group Local Links Together (P3)
 
@@ -67,13 +72,14 @@
 
 ### Implementation
 
-- [ ] T021 [P] [US3] Implement is_local_url() detection in src/groupmrk/validator.py
-- [ ] T022 [P] [US3] Add Local Network emoji to EMOJI_MAP in src/groupmrk/models.py
-- [ ] T023 [US3] Add local network categorization in parser.py in src/groupmrk/parser.py
+- [ ] T026 [P] [US3] Implement is_local_url() detection in src/groupmrk/validator.py
+- [ ] T027 [P] [US3] Add Local Network emoji (🔗) to EMOJI_MAP in src/groupmrk/models.py
+- [ ] T028 [US3] Add local network categorization in parser.py in src/groupmrk/parser.py
+- [ ] T029 [US3] Reject non-RFC1918 internal IP ranges in src/groupmrk/validator.py
 
 ### Tests
 
-- [ ] T024 [P] [US3] Add local link detection tests in tests/unit/test_validator.py
+- [ ] T030 [P] [US3] Add local link detection tests in tests/unit/test_validator.py
 
 ## Phase 6: User Story 4 - Separate IP Address URLs (P4)
 
@@ -83,37 +89,38 @@
 
 ### Implementation
 
-- [ ] T025 [P] [US4] Implement is_ip_address() detection in src/groupmrk/validator.py
-- [ ] T026 [US4] Add IP-based URL categorization in parser.py in src/groupmrk/parser.py
+- [ ] T031 [P] [US4] Implement is_ip_address() detection in src/groupmrk/validator.py
+- [ ] T032 [US4] Add IP-based URL categorization in parser.py in src/groupmrk/parser.py
 
 ### Tests
 
-- [ ] T027 [P] [US4] Add IP address detection tests in tests/unit/test_validator.py
+- [ ] T033 [P] [US4] Add IP address detection tests in tests/unit/test_validator.py
 
 ## Phase 7: URL Verification
 
-**Goal**: Verify URL accessibility via HTTP HEAD requests
+**Goal**: Verify URL accessibility via HTTP HEAD requests with security measures
 
 ### Implementation
 
-- [ ] T028 [P] Implement URLVerifier class in src/groupmrk/verifier.py
-- [ ] T029 [P] Implement verify_single() method with 5s timeout in src/groupmrk/verifier.py
-- [ ] T030 [P] Implement verify_batch() with 10 concurrent connections in src/groupmrk/verifier.py
-- [ ] T031 [P] Implement redirect limit (max 1 hop) in src/groupmrk/verifier.py
-- [ ] T032 Skip local network URLs from verification in src/groupmrk/verifier.py
-- [ ] T033 [US1] Integrate URL verification into parser flow in src/groupmrk/parser.py
-- [ ] T034 [US1] Mark unreachable URLs with warning status in src/groupmrk/parser.py
-- [ ] T035 Output verification summary to console in src/groupmrk/cli.py
+- [ ] T034 [P] Implement URLVerifier class with httpx security config in src/groupmrk/verifier.py
+- [ ] T035 [P] Implement verify_single() with 5s timeout and max_redirects=1 in src/groupmrk/verifier.py
+- [ ] T036 [P] Implement verify_batch() with 10 concurrent connections in src/groupmrk/verifier.py
+- [ ] T037 [P] Configure httpx: HEAD-only requests, SSL verify enabled in src/groupmrk/verifier.py
+- [ ] T038 Skip local network URLs from verification in src/groupmrk/verifier.py
+- [ ] T039 Integrate URL verification into parser flow in src/groupmrk/parser.py
+- [ ] T040 Mark unreachable URLs with warning status in src/groupmrk/parser.py
+- [ ] T041 Output verification summary to console (valid/invalid/unreachable) in src/groupmrk/cli.py
 
 ### Tests
 
-- [ ] T036 [P] Create tests/unit/test_verifier.py with mock HTTP tests
+- [ ] T042 [P] Create tests/unit/test_verifier.py with mock HTTP tests
 
 ## Phase 8: Polish & Cross-Cutting
 
-- [ ] T037 Run all existing tests to verify no regression
-- [ ] T038 Verify performance (< 50% overhead with dedup enabled)
-- [ ] T039 Update README if needed for new features
+- [ ] T043 Run all existing tests to verify no regression
+- [ ] T044 Verify performance (< 50% overhead with dedup enabled)
+- [ ] T045 Add end-to-end integration test for full parser flow
+- [ ] T046 Update README if needed for new features
 
 ---
 
@@ -121,48 +128,48 @@
 
 | Metric | Count |
 |--------|-------|
-| Total Tasks | 39 |
-| Setup | 3 |
-| Foundational | 4 |
-| User Story 1 (P1 - MVP) | 9 |
+| Total Tasks | 46 |
+| Setup | 4 |
+| Foundational | 5 |
+| User Story 1 (P1 - MVP) | 12 |
 | User Story 2 (P2) | 3 |
-| User Story 3 (P3) | 3 |
+| User Story 3 (P3) | 4 |
 | User Story 4 (P4) | 2 |
-| URL Verification | 8 |
-| Polish | 3 |
+| URL Verification | 9 |
+| Polish | 4 |
 
 ### Parallel Opportunities
 
 - T002, T003 (Setup - validator.py and verifier.py creation)
-- T008-T011 (US1 - pattern detection functions)
-- T015, T016 (US1 - tests)
-- T017, T021, T022, T025 (validator functions)
-- T020, T024, T027 (tests for multiple stories)
-- T028-T031 (verifier class methods)
-- T036 (verifier tests)
+- T010-T014 (US1 - pattern detection functions)
+- T019-T021 (US1 - tests)
+- T022, T026, T027, T031 (validator functions)
+- T025, T030, T033 (tests for multiple stories)
+- T034-T037 (verifier class methods)
+- T042 (verifier tests)
 
 ### Dependency Graph
 
 ```
-Setup (T001-T003)
+Setup (T001-T004)
     │
     ▼
-Foundational (T004-T007)
+Foundational (T005-T009)
     │
     ├─────────────────────┬─────────────────────┐
     ▼                     ▼                     ▼
-US1 (T008-T016)      US2 (T017-T020)      US3 (T021-T024)
+US1 (T010-T021)      US2 (T022-T025)      US3 (T026-T030)
     │                     │                     │
     └──────────┬──────────┘                     │
                ▼                                ▼
-         US4 (T025-T027)              US4 (T025-T027)
-               │                                │
-               └────────────┬───────────────────┘
-                            ▼
-                   Verification (T028-T036)
-                            │
-                            ▼
-                      Polish (T037-T039)
+          US4 (T031-T033)              US4 (T031-T033)
+                │                                │
+                └────────────┬───────────────────┘
+                             ▼
+                   Verification (T034-T042)
+                             │
+                             ▼
+                       Polish (T043-T046)
 ```
 
 ### Independent Test Criteria
@@ -173,4 +180,5 @@ US1 (T008-T016)      US2 (T017-T020)      US3 (T021-T024)
 | US2 | Import file with duplicates → Only first occurrence retained |
 | US3 | Import file with localhost/private IPs → All in Local Network category |
 | US4 | Import file with IP URLs → Separate from domain URLs |
-| Verification | All URLs verified (except local) → Summary output to console |
+| Verification | All URLs verified (except local) → Summary shows valid/invalid/unreachable counts |
+| MVP Acceptance | Must detect SQL injection, XSS, path traversal patterns and log with specific reasons |

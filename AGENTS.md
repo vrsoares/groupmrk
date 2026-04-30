@@ -349,6 +349,25 @@ User Request
 
 ---
 
+## Agent Usage Pattern
+
+The 3 agents MUST be used in the following workflow steps:
+
+| Step | When to Use Agents | Agent Focus |
+|------|-------------------|-------------|
+| `/speckit.specify` | After understanding requirements | Analyze requirements, identify edge cases |
+| `/speckit.clarify` | Always (validate spec completeness) | Technical accuracy, security, clarity |
+| `/speckit.plan` | After creating plan drafts | Research, data model, architecture |
+| `/speckit.tasks` | **Always** (before finalizing tasks) | Completeness, dependencies, security |
+| `/speckit.implement` | During implementation reviews | Code quality, security, testing |
+
+**Agent Assignment for Tasks Phase**:
+- **Agent 1 (Senior Dev)**: Technical completeness, implementation order, missing components
+- **Agent 2 (Doc Writer)**: Documentation clarity, file paths, test criteria
+- **Agent 3 (Security)**: Security gaps, validation coverage, secure implementation
+
+---
+
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan:
