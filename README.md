@@ -48,9 +48,27 @@ No programming knowledge needed!
 ### What can it do?
 
 - **Automatic Organization**: Put your bookmarks in, get them organized automatically
+- **Link Verification**: Checks if your bookmarks still work - broken links are removed automatically
 - **Natural Search**: Find bookmarks by typing "python tutorials" instead of searching in folders
 - **Works Everywhere**: Works with Chrome, Firefox, Edge, and other browsers
 - **No Account Needed**: No login, no password, no API key required
+
+### How Link Verification Works
+
+When you run `groupmrk import`, the tool checks each bookmark to see if the link still works:
+
+- **Working links**: Included in your organized bookmarks
+- **Broken links**: Removed automatically (404, server errors, timeouts)
+
+After running, you'll see a summary like:
+```
+Found: 280 bookmarks
+Working: 188 links
+Removed: 92 broken links
+Groups: 15 themes
+```
+
+This means your organized bookmarks will only contain links that actually work!
 
 ### How to Install (Step by Step)
 
@@ -271,6 +289,16 @@ Done! Your bookmarks are now organized!
 - Make sure the bookmark file exists in the folder where you're running the command
 - Check that you're in the correct folder with `cd`
 
+**Many bookmarks were removed**
+- This is normal! Old bookmarks often have broken links
+- The tool only removes links that don't work anymore (404, server errors, timeouts)
+- Your organized file only contains working links
+
+**Verification takes too long**
+- The tool checks each link individually, which takes time
+- For 280 bookmarks, expect 3-5 minutes
+- This is a one-time process - the organized file is ready to use
+
 ---
 
 ### License
@@ -303,9 +331,27 @@ Não precisa saber programação!
 ### O que ele faz?
 
 - **Organização Automática**: Coloque os favoritos, receba organizados
+- **Verificação de Links**: Verifica se seus favoritos ainda funcionam - links quebrados são removidos automaticamente
 - **Pesquisa Natural**: Encontre favoritos digitando "tutoriais python" em vez de procurar em pastas
 - **Funciona em Todos**: Chrome, Firefox, Edge e outros navegadores
 - **Sem Cadastro**: Sem login, sem senha, sem chave de API
+
+### Como funciona a verificação de links
+
+Quando você executa `groupmrk import`, a ferramenta verifica cada favorito para ver se o link ainda funciona:
+
+- **Links funcionando**: Incluídos nos favoritos organizados
+- **Links quebrados**: Removidos automaticamente (404, erros de servidor, timeout)
+
+Depois de executar, você verá um resumo como:
+```
+Encontrados: 280 favoritos
+Funcionando: 188 links
+Removidos: 92 links quebrados
+Grupos: 15 temas
+```
+
+Isso significa que seus favoritos organizados conterão apenas links que realmente funcionam!
 
 ### Como Instalar (Passo a Passo)
 
@@ -525,6 +571,16 @@ Diz "No LLM client available"
 Erro "File not found"
 - Verifique se o arquivo de favoritos existe na pasta onde você está executando o comando
 - Use `cd` para ir até a pasta correta
+
+**Muitos favoritos foram removidos**
+- Isso é normal! Favoritos antigos frequentemente têm links quebrados
+- A ferramenta remove apenas links que não funcionam mais (404, erros de servidor, timeout)
+- Seu arquivo organizado contém apenas links que funcionam
+
+**Verificação demora muito**
+- A ferramenta verifica cada link individualmente, o que leva tempo
+- Para 280 favoritos, espere 3-5 minutos
+- Este é um processo único - o arquivo organizado está pronto para usar
 
 ---
 
