@@ -18,6 +18,7 @@ Security: All user inputs are validated and sanitized before processing.
 Seguranca: Todas as entradas do usuario sao validadas e sanitizadas.
 """
 
+import asyncio
 import logging
 import sys
 from pathlib import Path
@@ -27,6 +28,7 @@ import click
 from . import __version__
 from .parser import BookmarkParser
 from .output import HTMLOutputGenerator
+from .verifier import URLVerifier, redact_url
 
 logging.basicConfig(
     level=logging.INFO,
@@ -66,30 +68,128 @@ def import_cmd(input_file, output, max_themes, provider, mock):
     logger.info(f"Starting import command for file: {input_file}")
     click.echo(f"Importing bookmarks from: {input_file}")
 
-    logger.info("Step 1/4: Parsing HTML file")
+    # Step 1: Parse HTML
+    logger.info("Step 1/5: Parsing HTML file")
     parser = BookmarkParser()
     collection = parser.parse_file(input_file)
-    logger.info(f"Step 1/4 complete: Parsed {collection.metadata.total_count} bookmarks")
+    logger.info(f"Step 1/5 complete: Parsed {collection.metadata.total_count} bookmarks")
     click.echo(f"Parsed {collection.metadata.total_count} bookmarks")
 
-    logger.info(f"Step 2/4: Organizing with AI (provider={provider}, max_themes={max_themes}, mock={mock})")
+    # Step 2: Verify URLs
+    logger.info("Step 2/5: Verifying URLs")
+    click.echo("Verifying URLs (checking reachability)...")
+    verifier = URLVerifier()
+    verification_results = asyncio.run(verifier.verify_batch([b.url for b in collection.bookmarks]))
+
+    # Apply verification results
+    for bookmark, result in zip(collection.bookmarks, verification_results):
+        bookmark.http_status_code = result.status_code
+        bookmark.is_reachable = result.should_keep
+        bookmark.verification_error = result.error
+        bookmark.final_url = result.final_url
+        bookmark.redirect_chain = result.redirect_chain
+
+    # Update metadata
+    collection.metadata.security_valid_count = sum(1 for b in collection.bookmarks if b.is_reachable)
+    collection.metadata.reachable_count = collection.metadata.security_valid_count
+    collection.metadata.filtered_count = sum(1 for b in collection.bookmarks if not b.is_reachable)
+    collection.metadata.requests_made = verifier.requests_made
+
+    # Count by filter type
+    for b, r in zip(collection.bookmarks, verification_results):
+        if not r.should_keep:
+            outcome_val = r.outcome.value
+            if outcome_val.startswith("filtered_4"):
+                collection.metadata.filtered_4xx += 1
+            elif outcome_val.startswith("filtered_5"):
+                collection.metadata.filtered_5xx += 1
+            elif outcome_val == "filtered_timeout":
+                collection.metadata.filtered_timeout += 1
+            elif outcome_val == "filtered_connection":
+                collection.metadata.filtered_connection += 1
+            elif outcome_val == "filtered_ssrf":
+                collection.metadata.filtered_ssrf += 1
+            elif outcome_val == "filtered_loop":
+                collection.metadata.filtered_redirect_loop += 1
+            elif outcome_val == "filtered_credential_url":
+                collection.metadata.filtered_credential_url += 1
+            elif outcome_val == "filtered_port":
+                collection.metadata.filtered_port += 1
+
+    # Count redirects followed
+    collection.metadata.redirects_followed = sum(
+        1 for b in collection.bookmarks
+        if b.redirect_chain and len(b.redirect_chain) > 1
+    )
+
+    # Count GET fallback attempts
+    collection.metadata.extension_get_attempts = sum(
+        1 for b in collection.bookmarks if b.is_safe_extension
+    )
+
+    # Filter unreachable bookmarks
+    reachable_bookmarks = [b for b in collection.bookmarks if b.is_reachable]
+    logger.info(
+        f"Step 2/5 complete: {len(reachable_bookmarks)} reachable, "
+        f"{collection.metadata.filtered_count} filtered"
+    )
+    click.echo(
+        f"Verified: {len(reachable_bookmarks)} reachable, "
+        f"{collection.metadata.filtered_count} filtered"
+    )
+
+    # Show filter breakdown
+    if collection.metadata.filtered_count > 0:
+        filter_parts = []
+        if collection.metadata.filtered_4xx > 0:
+            filter_parts.append(f"4xx: {collection.metadata.filtered_4xx}")
+        if collection.metadata.filtered_5xx > 0:
+            filter_parts.append(f"5xx: {collection.metadata.filtered_5xx}")
+        if collection.metadata.filtered_timeout > 0:
+            filter_parts.append(f"Timeout: {collection.metadata.filtered_timeout}")
+        if collection.metadata.filtered_connection > 0:
+            filter_parts.append(f"Connection: {collection.metadata.filtered_connection}")
+        if collection.metadata.filtered_ssrf > 0:
+            filter_parts.append(f"SSRF: {collection.metadata.filtered_ssrf}")
+        if filter_parts:
+            click.echo(f"  Filtered: {', '.join(filter_parts)}")
+
+    if collection.metadata.redirects_followed > 0:
+        click.echo(f"  Redirects followed: {collection.metadata.redirects_followed}")
+
+    # Update collection to only have reachable bookmarks
+    collection.bookmarks = reachable_bookmarks
+
+    # Step 3: Organize with AI
+    logger.info(f"Step 3/5: Organizing with AI (provider={provider}, max_themes={max_themes}, mock={mock})")
     from .graph import Orchestrator
 
     orchestrator = Orchestrator(provider=provider, max_themes=max_themes, mock=mock)
     collection = orchestrator.organize(collection)
-    logger.info(f"Step 2/4 complete: Organized into {len(collection.themes)} themes")
+    logger.info(f"Step 3/5 complete: Organized into {len(collection.themes)} themes")
     click.echo(f"Organized into {len(collection.themes)} themes")
 
     if not output:
         output = Path(input_file).with_suffix(".organized.html")
         logger.info(f"No output specified, using: {output}")
 
-    logger.info(f"Step 3/4: Generating HTML output")
+    # Step 4: Generate HTML
+    logger.info(f"Step 4/5: Generating HTML output")
     generator = HTMLOutputGenerator()
     generator.write(collection, output)
-    logger.info(f"Step 3/4 complete: HTML generated")
-    logger.info(f"Step 4/4: Writing to file")
+    logger.info(f"Step 4/5 complete: HTML generated")
+
+    # Step 5: Write to file
+    logger.info(f"Step 5/5: Writing to file")
     click.echo(f"Output written to: {output}")
+
+    # Show final statistics
+    click.echo(f"\n--- Statistics ---")
+    click.echo(f"Parsed: {collection.metadata.total_count} → "
+               f"Security Valid: {collection.metadata.security_valid_count} → "
+               f"Reachable: {collection.metadata.reachable_count} → "
+               f"Categorized: {len(collection.themes)} themes")
+    click.echo(f"Requests made: {collection.metadata.requests_made}")
     logger.info(f"Import complete! Output: {output}")
 
 
