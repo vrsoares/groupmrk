@@ -20,3 +20,4 @@ bookmarks_*.html
 !.specify/memory/
 !.specify/templates/
 !.specify/plans/
+test_output.html
