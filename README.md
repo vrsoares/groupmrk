@@ -1,6 +1,6 @@
 # groupmrk
 
-Um programa de organização de favoritos do navegador pomoccedil; IA. Organize, pesquise e categorize seus favoritos usando intelig挡cia artificial.
+Um programa de organizacao de favoritos do navegador com IA. Organize, pesquise e categorize seus favoritos usando inteligencia artificial.
 
 ---
 
@@ -109,6 +109,23 @@ Choose your computer below and follow the steps:
 
 ## How to Use (Examples)
 
+### IMPORTANT: Where to Run Commands
+
+Before running any command, you need to be in the right folder!
+
+**Check your current folder:**
+- **Windows**: In Command Prompt, look at what comes before the `>` symbol
+  - Example: `C:\Users\YourName\Documents\bookmarks>` - you're in the "bookmarks" folder
+  - If it shows `C:\Users\YourName>` - you're in your home folder
+  
+- **macOS/Linux**: In Terminal, look at what comes before `$`
+  - Example: `~/Documents/bookmarks$` - you're in the "bookmarks" folder
+  - If it shows `~` or `$HOME` - you're in your home folder
+
+**To change folder:**
+- **Windows**: `cd Documents\bookmarks` (use backslash `\`)
+- **macOS/Linux**: `cd Documents/bookmarks` (use forward slash `/`)
+
 ### 1. Organize Your Bookmarks
 
 ```bash
@@ -153,9 +170,12 @@ groupmrk --help
 
 3. Open terminal/command prompt
 
-4. Run: `groupmrk import bookmarks.html --output organized.html --mock`
+4. Navigate to the folder where you saved bookmarks.html
+   - Use `cd` command to change to that folder
 
-5. Open "organized.html" in your browser and import it!
+5. Run: `groupmrk import bookmarks.html --output organized.html --mock`
+
+6. Open "organized.html" in your browser and import it!
 
 ---
 
@@ -172,6 +192,10 @@ groupmrk --help
 - Make sure you have internet connection
 - Or use the `--mock` flag for testing
 
+**"File not found" error**
+- Make sure the bookmark file exists in the folder where you're running the command
+- Check that you're in the correct folder with `cd`
+
 ---
 
 ### License
@@ -182,15 +206,15 @@ MIT - Free to use, modify, and share!
 
 ## Portugues
 
-### O que eacute; isto?
+### O que e isto?
 
-**groupmrk** eacute; um programa que ajuda vocecirc; a organizar seus favoritos do navegador usando intelig挡cia artificial. Vocecirc; entrega os favoritos e ele organiza automaticamente em grupos como "Desenvolvimento", "Tutoriais", "Noticias", e mais.
+**groupmrk** e um programa que ajuda voce a organizar seus favoritos do navegador usando inteligencia artificial. Voce entrega os favoritos e ele organiza automaticamente em grupos como "Desenvolvimento", "Tutoriais", "Noticias", e mais.
 
-Vocecirc; nao precisa saber programacao para usar!
+Voce nao precisa saber programacao para usar!
 
 ### O que ele faz?
 
-- **Organizacao Automatica**: Coloque os favoritos, receber organizezados
+- **Organizacao Automatica**: Coloque os favoritos, receba organizados
 - **Pesquisa Natural**: Encontre favoritos digitando "tutoriais python" em vez de procurar em pastas
 - **Funciona em Todos**: Chrome, Firefox, Edge e outros navegadores
 - **Sem Cadastro**: Sem login, sem senha, sem chave de API
@@ -218,7 +242,7 @@ Escolha seu computador abaixo e siga os passos:
    - Digite: `pip install groupmrk`
    - Pressione Enter e aguarde
 
-4. **Pronto!** Agora vocecirc; pode usar!
+4. **Pronto!** Agora voce pode usar!
 
 #### macOS (Apple)
 
@@ -285,6 +309,23 @@ Escolha seu computador abaixo e siga os passos:
 
 ## Como Usar (Exemplos)
 
+### IMPORTANTE: Onde Executar os Comandos
+
+Antes de executar qualquer comando, voce precisa estar na pasta correta!
+
+**Verificar sua pasta atual:**
+- **Windows**: No Prompt de Comando, olhe o que vem antes do simbolo `>`
+  - Exemplo: `C:\Users\SeuNome\Documentos\favoritos>` - voce esta na pasta "favoritos"
+  - Se mostrar `C:\Users\SeuNome>` - voce esta na pasta pessoal
+
+- **macOS/Linux**: No Terminal, olhe o que vem antes de `$`
+  - Exemplo: `~/Documents/bookmarks$` - voce esta na pasta "bookmarks"
+  - Se mostrar `~` ou `$HOME` - voce esta na pasta pessoal
+
+**Para mudar de pasta:**
+- **Windows**: `cd Documentos\favoritos` (use barra invertida `\`)
+- **macOS/Linux**: `cd Documents/favoritos` (use barra normal `/`)
+
 ### 1. Organizar seus Favoritos
 
 ```bash
@@ -302,7 +343,7 @@ groupmrk import meus_favoritos.html --output organizados.html --mock
 groupmrk search "tutoriais python" organizados.html
 ```
 
-Isso encontrar favorites sobre tutoriais Python!
+Isso encontrara favoritos sobre tutoriais Python!
 
 ### 3. Exportar para Formato do Navegador
 
@@ -329,9 +370,12 @@ groupmrk --help
 
 3. Abra o terminal/prompt de comando
 
-4. Execute: `groupmrk import favoritos.html --output organizados.html --mock`
+4. Va ate a pasta onde voce salvou favoritos.html
+   - Use o comando `cd` para mudar para essa pasta
 
-5. Abra "organizados.html" no navegador e importe!
+5. Execute: `groupmrk import favoritos.html --output organizados.html --mock`
+
+6. Abra "organizados.html" no navegador e importe!
 
 ---
 
@@ -347,6 +391,10 @@ groupmrk --help
 Diz "No LLM client available"
 - Verifique se tem conexao com a internet
 - Ou use a flag `--mock` para testar
+
+Erro "File not found"
+- Verifique se o arquivo de favoritos existe na pasta onde voce esta executando o comando
+- Use `cd` para ir ate a pasta correta
 
 ---
 
