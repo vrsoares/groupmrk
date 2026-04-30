@@ -2,8 +2,20 @@
 
 **Feature Branch**: `001-bookmarks-manager`  
 **Created**: 2026-04-29  
-**Status**: Draft  
-**Input**: User description: "An open-source browser bookmarks manager powered by LLM. Organize, search, and categorize your bookmarks using artificial intelligence. The tool should accept HTML bookmark exports from browsers (Chrome, Firefox, Edge) and output organized HTML that can be imported back. It must work without requiring the user to configure any API keys - using free cloud models via HuggingFace Inference API, with optional Ollama support for local models. Built with LangChain/LangGraph for LLM orchestration."
+**Status**: Clarified  
+**Input**: "An open-source browser bookmarks manager powered by LLM..."
+
+## Technical Clarifications
+
+| Aspect | Decision |
+|--------|----------|
+| LLM Orchestration | LangGraph with Orchestrator + Theme Agents (max 10, configurable) |
+| Model | Theme classification model (input: text → output: main theme) |
+| Output Format | HTML with browser-import structure + emoji per theme |
+| Project Structure | Single module, simplest possible |
+| CLI | Flags with easy options for lay users |
+| Dev Tools | uv (dev) / pip (user) - "download and use" approach |
+| Testing | pytest with VSCode integration |
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -11,110 +23,137 @@
 
 As a user, I want to import my browser bookmarks from an HTML export file and have AI automatically organize them into logical categories/folders.
 
-**Why this priority**: This is the core value proposition - the primary reason users would use this tool. Without bookmark import and AI organization, the tool has no purpose.
+**Why this priority**: Core value proposition - without import and AI organization, tool has no purpose.
 
-**Independent Test**: Can be fully tested by providing a sample HTML bookmark file and verifying that the output contains organized bookmarks in a valid HTML format that can be imported back into a browser.
+**Independent Test**: Provide sample HTML bookmark file → verify output is valid HTML importable by browser.
 
 **Acceptance Scenarios**:
 
-1. **Given** a valid Chrome/Firefox/Edge HTML bookmark export file, **When** the user runs the import command, **Then** the system parses all bookmarks with their titles, URLs, and folder structure.
-2. **Given** parsed bookmarks, **When** the LLM processes them, **Then** bookmarks are categorized into meaningful groups (e.g., "Development", "News", "Shopping", "Research").
-3. **Given** organized bookmarks, **When** the user requests output, **Then** a valid HTML file is generated that can be imported back into any major browser.
-4. **Given** no API keys configured, **When** the user runs the tool, **Then** it automatically uses HuggingFace Inference API with free models without requiring user configuration.
+1. **Given** valid Chrome/Firefox/Edge HTML export, **When** user runs import command, **Then** system parses all bookmarks with titles, URLs, and folder structure.
+2. **Given** parsed bookmarks, **When** LLM processes them, **Then** bookmarks are categorized into themes (max 10, configurable).
+3. **Given** organized bookmarks, **When** user requests output, **Then** valid HTML with emojis per theme, importable by browsers.
+4. **Given** no API keys configured, **When** user runs tool, **Then** automatically uses HuggingFace Inference API (free, no key).
 
 ---
 
 ### User Story 2 - Search Bookmarks Using Natural Language (Priority: P2)
 
-As a user, I want to search my bookmarks using natural language queries to find relevant links quickly without navigating folders.
+As a user, I want to search bookmarks using natural language to find links quickly.
 
-**Why this priority**: Once users have many bookmarks, folder navigation becomes tedious. Natural language search provides immediate value and demonstrates the AI capabilities.
+**Why this priority**: Demonstrates AI value; folder navigation becomes tedious with many bookmarks.
 
-**Independent Test**: Can be tested by loading bookmarks and running search queries like "Find my Python tutorials" and verifying relevant bookmarks are returned.
+**Independent Test**: Load bookmarks → run "Find my Python tutorials" → verify relevant results.
 
 **Acceptance Scenarios**:
 
-1. **Given** a loaded bookmark collection, **When** user types a natural language query, **Then** the system returns bookmarks ranked by relevance to the query.
-2. **Given** a query that matches multiple categories, **Then** results are grouped by category with explanations of why each matched.
+1. **Given** loaded collection, **When** user types query, **Then** returns bookmarks ranked by relevance.
+2. **Given** query matches multiple categories, **Then** results grouped by category with explanations.
 
 ---
 
 ### User Story 3 - Local Model Support with Ollama (Priority: P3)
 
-As a privacy-conscious user, I want to use local LLM models via Ollama instead of cloud APIs for complete data privacy.
+As a privacy-conscious user, I want local LLM via Ollama instead of cloud APIs.
 
-**Why this priority**: Some users may have privacy concerns about sending bookmark data to cloud services. Providing local model support addresses this concern and expands the user base.
+**Why this priority**: Addresses privacy concerns; expands user base.
 
-**Independent Test**: Can be tested by configuring Ollama endpoint and verifying the tool works without internet connectivity to HuggingFace.
-
-**Acceptance Scenarios**:
-
-1. **Given** Ollama is running locally, **When** user configures the tool to use Ollama, **Then** the system uses local models for all AI operations.
-2. **Given** Ollama is not available or not configured, **Then** the system gracefully falls back to HuggingFace Inference API.
-
----
-
-### User Story 4 - Manual Category Override and Editing (Priority: P4)
-
-As a user, I want to manually adjust AIassigned categories or create custom categories for better organization.
-
-**Why this priority**: AI categorization isn't perfect. Users should be able to fine-tune organization to match their mental model.
-
-**Independent Test**: Can be tested by viewing categorized output and modifying a bookmark's category, then regenerating the output.
+**Independent Test**: Configure Ollama endpoint → verify tool works without internet.
 
 **Acceptance Scenarios**:
 
-1. **Given** AI-categorized bookmarks, **When** user specifies a different category for a bookmark, **Then** the bookmark is moved to the user-specified category in the output.
-2. **Given** custom category request, **When** user creates a new category name, **Then** a new folder is created in the output.
+1. **Given** Ollama running locally, **When** user configures it, **Then** system uses local models.
+2. **Given** Ollama unavailable, **Then** gracefully falls back to HuggingFace API.
 
 ---
 
-### Edge Cases
+### User Story 4 - Manual Category Override (Priority: P4)
 
-- What happens when the HTML file has malformed bookmark entries?
-- How does system handle very large bookmark files (1000+ bookmarks)?
-- What happens when HuggingFace API is unavailable or rate-limited?
-- How are duplicate bookmarks handled?
-- What happens when a bookmark has no title (only URL)?
-- How does the system handle special characters in bookmark titles?
-- What are the rate limits for the free HuggingFace API tier?
+As a user, I want to manually adjust AI categories or create custom ones.
+
+**Why this priority**: AI isn't perfect; users should fine-tune to match their mental model.
+
+**Independent Test**: View categorized output → modify category → regenerate output.
+
+**Acceptance Scenarios**:
+
+1. **Given** AI-categorized bookmarks, **When** user specifies different category, **Then** bookmark moves to user category.
+2. **Given** custom category request, **When** user creates new category name, **Then** new folder created in output.
+
+---
+
+### LangGraph Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    Orchestrator Agent                   │
+│  (receives all bookmarks, coordinates theme agents)    │
+└─────────────────────────────────────────────────────────┘
+                          │
+        ┌─────────────────┼─────────────────┐
+        ▼                 ▼                 ▼
+   ┌─────────┐      ┌─────────┐       ┌─────────┐
+   │ Theme   │      │ Theme   │  ...  │ Theme   │
+   │ Agent 1 │      │ Agent 2 │       │ Agent N │
+   │ (max 10)│      │         │       │         │
+   └─────────┘      └─────────┘       └─────────┘
+        │                 │                 │
+        └─────────────────┼─────────────────┘
+                          ▼
+              ┌─────────────────────────┐
+              │   Final HTML Generator  │
+              │   (combines all themes  │
+              │    with emojis)         │
+              └─────────────────────────┘
+```
 
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
 
-- **FR-001**: System MUST accept HTML bookmark files from Chrome, Firefox, and Edge exports
-- **FR-002**: System MUST parse bookmark metadata: title, URL, add_date, icon, and folder hierarchy
-- **FR-003**: System MUST use HuggingFace Inference API by default without requiring API keys
-- **FR-004**: System MUST support optional Ollama configuration for local model inference
-- **FR-005**: System MUST output valid HTML bookmark format compatible with browser import
-- **FR-006**: System MUST categorize bookmarks using LLM inference via LangChain/LangGraph
-- **FR-007**: System MUST provide natural language search capability across bookmarks
-- **FR-008**: System MUST allow users to override AI categorization with manual assignments
-- **FR-009**: System MUST handle rate limiting and API failures gracefully with fallback behavior
+- **FR-001**: System MUST accept HTML bookmark files from Chrome, Firefox, and Edge
+- **FR-002**: System MUST parse: title, URL, add_date, icon, folder hierarchy
+- **FR-003**: System MUST use HuggingFace Inference API by default (no API key required)
+- **FR-004**: System MUST support optional Ollama for local models
+- **FR-005**: System MUST output valid HTML bookmark format (browser-importable)
+- **FR-006**: System MUST use LangGraph with Orchestrator + Theme Agents architecture
+- **FR-007**: System MUST categorize using theme classification model
+- **FR-008**: System MUST add emoji per theme category in output
+- **FR-009**: System MUST allow manual category override
+- **FR-010**: System MUST provide natural language search
+- **FR-011**: System MUST handle API failures gracefully with fallback
 
 ### Key Entities
 
-- **Bookmark**: Represents a single bookmark entry with title, URL, metadata, and assigned category
-- **Category**: Grouping of bookmarks (e.g., "Development", "News") created by AI or user
-- **BookmarkCollection**: Container for all bookmarks from an import, maintains original and AI-assigned categories
-- **LLMProcessor**: LangChain/LangGraph workflow that orchestrates categorization logic
+- **Bookmark**: title, URL, metadata, assigned theme
+- **Theme**: group of bookmarks with emoji identifier
+- **ThemeAgent**: LLM agent specialized in one theme (max 10)
+- **Orchestrator**: LangGraph agent coordinating theme agents
+- **BookmarkCollection**: all bookmarks with original + AI categories
 
 ## Success Criteria *(mandatory)*
 
 ### Measurable Outcomes
 
-- **SC-001**: Users can import a standard browser bookmark HTML file and receive organized output in under 30 seconds for files with up to 500 bookmarks
-- **SC-002**: Generated HTML files are successfully importable into Chrome, Firefox, and Edge without errors
-- **SC-003**: At least 80% of bookmarks are meaningfully categorized (not left in "Uncategorized")
-- **SC-004**: System works out-of-the-box without any configuration required (zero-config experience)
-- **SC-005**: Search returns relevant results within 5 seconds for collections up to 1000 bookmarks
+- **SC-001**: Import + organize 500 bookmarks in under 30 seconds
+- **SC-002**: Output HTML successfully importable to Chrome, Firefox, Edge
+- **SC-003**: At least 80% of bookmarks categorized (not "Uncategorized")
+- **SC-004**: Zero-config: works without any user configuration
+- **SC-005**: Search returns results in under 5 seconds for 1000 bookmarks
 
 ## Assumptions
 
-- Users have Python 3.10+ installed on their system
-- Users have basic familiarity with command-line tools
-- Free HuggingFace Inference API tier has sufficient rate limits for typical personal use
-- Browser HTML export format follows standard Netscape Bookmark HTML format
-- Privacy-conscious users will opt-in to Ollama support rather than it being the default
-- The tool runs primarily as a CLI application with optional web interface in future versions
+- Users have Python 3.10+
+- Users may have zero technical knowledge
+- Free HuggingFace Inference API tier sufficient for personal use
+- Browser HTML follows Netscape Bookmark format
+- Single module structure for easy contribution
+
+## CLI Options (User-Friendly)
+
+```
+groupmrk import bookmarks.html           # Import and organize
+groupmrk search "python tutorials"       # Natural language search
+groupmrk export output.html               # Export organized bookmarks
+groupmrk organize --max-themes 5         # Customize theme count
+groupmrk --help                          # Show simple help
+```
