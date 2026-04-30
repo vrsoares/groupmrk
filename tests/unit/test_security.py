@@ -109,11 +109,41 @@ class TestSSRFPrevention:
         assert result.verification_skipped is True
 
     def test_ssrf_verifier_skips_dotlocal(self):
-        """Test that .local mDNS domains are skipped."""
-        result = verify_url("http://myserver.local")
+        """Test that verifier skips .local mDNS domains."""
+        result = verify_url("http://myserver.local/index.html")
         assert result.verification_skipped is True
 
+    def test_non_routable_link_local_rejected(self):
+        """Test that link-local addresses (169.254.x.x) are rejected.
+        
+        SECURE: 169.254.x.x is link-local and should be rejected.
+        """
+        from groupmrk.validator import is_non_routable_ip, validate_url
+        assert is_non_routable_ip("169.254.0.1") is True
+        assert is_non_routable_ip("169.254.1.1") is True
+        assert is_non_routable_ip("169.254.254.254") is True
+        
+        result = validate_url("http://169.254.1.1/admin")
+        assert result.is_valid is False
+        assert "Non-routable" in result.reason
 
+    def test_non_routable_multicast_rejected(self):
+        """Test that multicast addresses (224.x.x.x - 255.x.x.x) are rejected.
+        
+        SECURE: Multicast and reserved ranges should be rejected.
+        """
+        from groupmrk.validator import is_non_routable_ip, validate_url
+        assert is_non_routable_ip("224.0.0.1") is True
+        assert is_non_routable_ip("239.255.255.250") is True
+        assert is_non_routable_ip("255.255.255.0") is True
+        
+        result = validate_url("http://239.255.255.250:1900/")
+        assert result.is_valid is False
+        assert "Non-routable" in result.reason
+
+
+# =============================================================================
+# URL Redirect Tests - Open Redirect Prevention
 # =============================================================================
 # URL Redirect Tests - Open Redirect Prevention
 # =============================================================================

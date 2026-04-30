@@ -70,6 +70,15 @@ def validate_url(url_string: str) -> ValidationResult:
             patterns_found=patterns_found,
         )
 
+    if parsed.netloc:
+        if is_non_routable_ip(parsed.netloc):
+            return ValidationResult(
+                is_valid=False,
+                is_suspicious=False,
+                reason="Non-routable IP address (link-local/reserved)",
+                patterns_found=patterns_found,
+            )
+
     if not parsed.netloc and not parsed.path:
         return ValidationResult(
             is_valid=False,
@@ -147,6 +156,43 @@ def _is_local_network(host: str) -> bool:
         return True
 
     return False
+
+
+def is_non_routable_ip(host: str) -> bool:
+    """Check if hostname is a non-routable IP (non-RFC1918).
+
+    These include link-local (169.254.x.x) and other reserved ranges.
+    Should be rejected for security.
+
+    RFC1918 (ALLOWED): 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
+    NON-ROUTABLE (REJECT): 169.254.0.0/16, 0.0.0.0/8, 100.64.0.0/10, 224.0.0.0/4, etc.
+    """
+    if not host:
+        return False
+
+    parts = host.split(":")[0].split(".")
+    if len(parts) != 4:
+        return False
+
+    try:
+        first = int(parts[0])
+        second = int(parts[1])
+
+        if first == 169 and second == 254:
+            return True
+
+        if first == 0:
+            return True
+
+        if first == 100 and 64 <= second <= 127:
+            return True
+
+        if first >= 224:
+            return True
+
+        return False
+    except (ValueError, IndexError):
+        return False
 
 
 def _is_ip_address(host: str) -> bool:

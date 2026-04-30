@@ -75,7 +75,7 @@
 - [X] T026 [P] [US3] Implement is_local_url() detection in src/groupmrk/validator.py
 - [X] T027 [P] [US3] Add Local Network emoji (🔗) to EMOJI_MAP in src/groupmrk/models.py
 - [X] T028 [US3] Add local network categorization in parser.py in src/groupmrk/parser.py
-- [ ] T029 [US3] Reject non-RFC1918 internal IP ranges in src/groupmrk/validator.py
+- [X] T029 [US3] Reject non-RFC1918 internal IP ranges in src/groupmrk/validator.py
 
 ### Tests
 
