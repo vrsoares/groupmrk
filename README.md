@@ -1,6 +1,17 @@
 # groupmrk
 
-Um programa de organizacao de favoritos do navegador com IA. Organize, pesquise e categorize seus favoritos usando inteligencia artificial.
+Um programa de organização de favoritos do navegador com IA. Organize, pesquise e categorize seus favoritos usando inteligência artificial.
+
+---
+
+## Sumário / Summary
+
+- [O que é / What is this](#o-que-é--what-is-this)
+- [Como instalar / How to install](#como-instalar--how-to-install)
+- [Como usar / How to use](#como-usar--how-to-use)
+- [Início rápido / Quick start](#início-rápido--quick-start)
+- [Solução de problemas / Troubleshooting](#solução-de-problemas--troubleshooting)
+- [Licença / License](#licença--license)
 
 ---
 
@@ -246,17 +257,17 @@ MIT - Free to use, modify, and share!
 
 ---
 
-## Portugues
+## Português
 
-### O que e isto?
+### O que é isto?
 
-**groupmrk** e um programa que ajuda voce a organizar seus favoritos do navegador usando inteligencia artificial. Voce entrega os favoritos e ele organiza automaticamente em grupos como "Desenvolvimento", "Tutoriais", "Noticias", e mais.
+**groupmrk** é um programa que ajuda você a organizar seus favoritos do navegador usando inteligência artificial. Você entrega os favoritos e ele organiza automaticamente em grupos como "Desenvolvimento", "Tutoriais", "Notícias", e mais.
 
-Voce nao precisa saber programacao para usar!
+Você não precisa saber programação para usar!
 
 ### O que ele faz?
 
-- **Organizacao Automatica**: Coloque os favoritos, receba organizados
+- **Organização Automática**: Coloque os favoritos, receba organizados
 - **Pesquisa Natural**: Encontre favoritos digitando "tutoriais python" em vez de procurar em pastas
 - **Funciona em Todos**: Chrome, Firefox, Edge e outros navegadores
 - **Sem Cadastro**: Sem login, sem senha, sem chave de API
@@ -268,8 +279,8 @@ Escolha seu computador abaixo e siga os passos:
 #### Windows
 
 1. **Baixar Python**
-   - Va para: https://www.python.org/downloads/
-   - Clique no botao: "Download Python 3.12.x"
+   - Vá para: https://www.python.org/downloads/
+   - Clique no botão: "Download Python 3.12.x"
    - Aguarde o download
 
 2. **Instalar Python**
@@ -284,7 +295,7 @@ Escolha seu computador abaixo e siga os passos:
    - Digite: `pip install groupmrk`
    - Pressione Enter e aguarde
 
-4. **Pronto!** Agora voce pode usar!
+4. **Pronto!** Agora você pode usar!
 
 #### macOS (Apple)
 
@@ -294,7 +305,7 @@ Escolha seu computador abaixo e siga os passos:
    - Se aparecer "command not found", continue abaixo
 
 2. **Instalar Python**
-   - Va para: https://www.python.org/downloads/
+   - Vá para: https://www.python.org/downloads/
    - Clique: "Download Python 3.12.x"
    - Abra o arquivo baixado e siga os passos
 
@@ -309,7 +320,7 @@ Escolha seu computador abaixo e siga os passos:
 1. **Abrir Terminal**
    - Pressione Ctrl + Alt + T
 
-2. **Instalar Python** (se nao tiver)
+2. **Instalar Python** (se não tiver)
    - Digite: `sudo apt update`
    - Pressione Enter
    - Digite: `sudo apt install python3 python3-pip`
@@ -354,7 +365,7 @@ Escolha seu computador abaixo e siga os passos:
 ### Passo 1: Exportar Seus Favoritos do Navegador
 
 1. Abra seu navegador (Chrome, Firefox, Edge, etc.)
-2. Encontre a opcao "Exportar Favoritos":
+2. Encontre a opção "Exportar Favoritos":
    - **Chrome**: Menu → Favoritos → Gerenciador de favoritos → Exportar
    - **Firefox**: Menu → Favoritos → Mostrar todos → Importar e Exportar → Exportar
    - **Edge**: Menu → Favoritos → Exportar favoritos
@@ -362,11 +373,11 @@ Escolha seu computador abaixo e siga os passos:
 
 ### Passo 2: Colar o Arquivo Aqui
 
-Copie o arquivo "bookmarks.html" e cole na mesma pasta onde este arquivo README esta (a pasta raiz do projeto).
+Copie o arquivo "bookmarks.html" e cole na mesma pasta onde este arquivo README está (a pasta raiz do projeto).
 
 ### Passo 3: Executar o Programa
 
-Agora voce esta pronto para organizar!
+Agora você está pronto para organizar!
 
 ### 1. Organizar seus Favoritos
 
@@ -374,10 +385,10 @@ Agora voce esta pronto para organizar!
 groupmrk import meus_favoritos.html --output organizados.html --mock
 ```
 
- Isto ira:
+ Isto irá:
  - Ler seus favoritos de "meus_favoritos.html"
- - Organizar usando IA (a flag --mock torna rapido para testar)
- - Salvar a versao organizada em "organizados.html"
+ - Organizar usando IA (a flag --mock torna rápido para testar)
+ - Salvar a versão organizada em "organizados.html"
 
 ### 2. Pesquisar seus Favoritos
 
@@ -385,7 +396,7 @@ groupmrk import meus_favoritos.html --output organizados.html --mock
 groupmrk search "tutoriais python" organizados.html
 ```
 
-Isso encontrara favoritos sobre tutoriais Python!
+Isso encontrará favoritos sobre tutoriais Python!
 
 ### 3. Exportar para Formato do Navegador
 
@@ -401,48 +412,48 @@ groupmrk --help
 
 ---
 
-### Inicio Rapido (5 minutos)
+### Início Rápido (5 minutos)
 
 #### Passo 1: Exportar Seus Favoritos
 1. Abra seu navegador (Chrome, Firefox, Edge)
-2. Encontre a opcao de exportar:
-   - **Chrome**: Menu (tres pontos) → Favoritos → Gerenciador de favoritos → Exportar
-   - **Firefox**: Menu (tres linhas) → Favoritos → Mostrar todos → Importar e Exportar → Exportar
-   - **Edge**: Menu (tres pontos) → Favoritos → Exportar favoritos
+2. Encontre a opção de exportar:
+   - **Chrome**: Menu (três pontos) → Favoritos → Gerenciador de favoritos → Exportar
+   - **Firefox**: Menu (três linhas) → Favoritos → Mostrar todos → Importar e Exportar → Exportar
+   - **Edge**: Menu (três pontos) → Favoritos → Exportar favoritos
 3. Ao salvar, nomeie o arquivo como: **bookmarks.html**
-4. Salve na pasta Area de Trabalho ou Downloads (por enquanto)
+4. Salve na pasta Área de Trabalho ou Downloads (por enquanto)
 
 #### Passo 2: Copiar para a Pasta do Projeto
-1. Va ate sua Area de Trabalho ou Downloads
-2. Encontre o arquivo "bookmarks.html" que voce acabou de criar
-3. Copie (clique com botao direito → Copiar, ou pressione Ctrl+C)
-4. Va ate a pasta onde voce extraiu este projeto (onde esta este README)
-5. Cole o arquivo ali (clique com botao direito → Colar, ou pressione Ctrl+V)
+1. Vá até sua Área de Trabalho ou Downloads
+2. Encontre o arquivo "bookmarks.html" que você acabou de criar
+3. Copie (clique com botão direito → Copiar, ou pressione Ctrl+C)
+4. Vá até a pasta onde você extraiu este projeto (onde está este README)
+5. Cole o arquivo ali (clique com botão direito → Colar, ou pressione Ctrl+V)
 
 #### Passo 3: Abrir o Terminal
 1. **Windows**: Pressione a tecla Windows + R, digite "cmd", pressione Enter
-   - Uma janela preta aparecera (Prompt de Comando)
+   - Uma janela preta aparecerá (Prompt de Comando)
 2. **macOS**: Pressione Cmd + Space, digite "Terminal", pressione Enter
-   - Uma janela branca/cinza aparecera
+   - Uma janela branca/cinza aparecerá
 3. **Linux**: Pressione Ctrl + Alt + T
-   - Uma janela de terminal aparecera
+   - Uma janela de terminal aparecerá
 
-#### Passo 4: Navegar ate a Pasta
-No terminal, voce precisa ir ate a pasta onde voce colou bookmarks.html.
+#### Passo 4: Navegar até a Pasta
+No terminal, você precisa ir até a pasta onde você colou bookmarks.html.
 
-**Se voce extraiu o projeto na Area de Trabalho (Windows):**
+**Se você extraiu o projeto na Área de Trabalho (Windows):**
 ```
 cd Desktop\groupmrk
 ```
 (Pressione Enter depois de digitar)
 
-**Se voce extraiu o projeto na Area de Trabalho (macOS/Linux):**
+**Se você extraiu o projeto na Área de Trabalho (macOS/Linux):**
 ```
 cd Desktop/groupmrk
 ```
 (Pressione Enter depois de digitar)
 
-**Dica**: Depois de pressionar Enter, voce deve ver o nome da pasta no comeco da linha, como:
+**Dica**: Depois de pressionar Enter, você deve ver o nome da pasta no começo da linha, como:
 - Windows: `C:\Users\SeuNome\Desktop\groupmrk>`
 - macOS: `~/Desktop/groupmrk$`
 
@@ -452,36 +463,68 @@ Agora digite este comando e pressione Enter:
 groupmrk import bookmarks.html --output organized.html --mock
 ```
 
-Aguarde alguns segundos... quando terminar, voce verah "organized.html" na sua pasta!
+Aguarde alguns segundos... quando terminar, você verá "organized.html" na sua pasta!
 
 #### Passo 6: Importar de Volta no Navegador
 1. Abra seu navegador
-2. Encontre a opcao de importar (mesma que exportar, mas escolha "Importar")
+2. Encontre a opção de importar (mesma que exportar, mas escolha "Importar")
 3. Selecione "organized.html" e importe!
 
-Pronto! Seus favoritos estao organizados!
+Pronto! Seus favoritos estão organizados!
 
 ---
 
-### Solucao de Problemas
+### Solução de Problemas
 
-"pip" nao e reconhecido (Windows)
-- Certifique-se de ter marcado "Add Python to PATH" durante a instalacao
+"pip" não é reconhecido (Windows)
+- Certifique-se de ter marcado "Add Python to PATH" durante a instalação
 - Ou tente: `python -m pip install groupmrk`
 
 "command not found" (macOS/Linux)
 - Tente usar `pip3` em vez de `pip`
 
 Diz "No LLM client available"
-- Verifique se tem conexao com a internet
+- Verifique se tem conexão com a internet
 - Ou use a flag `--mock` para testar
 
 Erro "File not found"
-- Verifique se o arquivo de favoritos existe na pasta onde voce esta executando o comando
-- Use `cd` para ir ate a pasta correta
+- Verifique se o arquivo de favoritos existe na pasta onde você está executando o comando
+- Use `cd` para ir até a pasta correta
 
 ---
 
-### Licenca
+### Licença
 
 MIT - Livre para usar, modificar e compartilhar!
+
+---
+
+## Contribua também! / Contribute too!
+
+Even if you are a beginner, you can help improve this project!
+
+Este projeto foi criado com duas ferramentas especiais que tornam a contribuição fácil:
+
+### Speckit
+https://github.com/anomalyco/speckit
+
+Speckit é uma ferramenta que ajuda a planejar e organizar o desenvolvimento de projetos. Ela te guia passo a passo, desde a ideia até a implementação, sem precisar ser um expert.
+
+### OpenCode
+https://opencode.ai
+
+OpenCode é uma ferramenta de IA que ajuda você a escrever código, corrigir erros e entender como as coisas funcionam. Você conversando em português ou inglês, ele te ajuda a fazer mudanças no projeto.
+
+### Como contribuir:
+1. Acesse o projeto no GitHub: https://github.com/vrsoares/groupmrk
+2. Clique em "Fork" para copiar o projeto
+3. Use o OpenCode para fazer suas mudanças
+4. Use o Speckit para planejar o que quer adicionar
+5. Envie suas mudanças com "Pull Request"
+
+Você não precisa saber programar perfeitamente — as ferramentas te ajudam a aprender fazendo!
+You don't need to know how to code perfectly — the tools help you learn by doing!
+
+---
+
+即使您是初學者，也可以幫助改進這個項目！
