@@ -17,6 +17,7 @@ from bs4 import BeautifulSoup, Tag
 
 from .models import Bookmark, BookmarkCollection
 from .validator import validate_url, redact_sensitive_params, normalize_url, is_local_url, is_ip_address
+from .verifier import verify_batch
 
 logger = logging.getLogger(__name__)
 
@@ -112,6 +113,8 @@ class BookmarkParser:
             elif is_ip_address(bookmark.url):
                 collection.assign_theme(bookmark, "IP Address")
 
+        self._verify_urls(collection)
+
         collection.metadata.total_count = len(collection.bookmarks) + len(collection.invalid_urls)
         collection.metadata.valid_count = len(collection.bookmarks)
         collection.metadata.invalid_count = len(collection.invalid_urls)
@@ -203,4 +206,31 @@ class BookmarkParser:
             add_date=add_date,
             icon=icon,
             original_folder=folder,
+        )
+
+    def _verify_urls(self, collection: BookmarkCollection) -> None:
+        """Verify URL reachability and categorize unreachable bookmarks."""
+        logger.info("Starting URL verification")
+        urls_to_verify = [b.url for b in collection.bookmarks]
+
+        if not urls_to_verify:
+            logger.debug("No URLs to verify")
+            return
+
+        verification_results = verify_batch(urls_to_verify)
+
+        for bookmark in collection.bookmarks:
+            result = verification_results.get(bookmark.url)
+            if result is None:
+                continue
+
+            if result.verification_skipped:
+                continue
+
+            if not result.is_reachable:
+                collection.add_unreachable_url(bookmark.url)
+                logger.warning(f"Unreachable URL: {bookmark.url[:50]}... ({result.error_type})")
+
+        logger.info(
+            f"Verification complete: {collection.metadata.unreachable_count} unreachable URLs"
         )

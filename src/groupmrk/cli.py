@@ -79,6 +79,19 @@ def import_cmd(input_file, output, max_themes, provider, mock):
         click.echo(f"  Check logs for details")
         logger.info(f"Validation: {collection.metadata.invalid_count} invalid URLs detected")
 
+    if collection.metadata.unreachable_count > 0:
+        click.echo(f"\n--- URL Verification ---")
+        reachable = collection.metadata.valid_count - collection.metadata.unreachable_count
+        click.echo(f"  Reachable URLs: {reachable}")
+        click.echo(f"  Unreachable URLs: {collection.metadata.unreachable_count}")
+        click.echo(f"  Warning: Some bookmarks may have broken links")
+        for url in collection.unreachable_urls[:5]:
+            safe_url = url[:60] + "..." if len(url) > 60 else url
+            click.echo(f"    - {safe_url}")
+        if len(collection.unreachable_urls) > 5:
+            click.echo(f"    ... and {len(collection.unreachable_urls) - 5} more")
+        logger.info(f"Verification: {collection.metadata.unreachable_count} unreachable URLs detected")
+
     logger.info(f"Step 2/4: Organizing with AI (provider={provider}, max_themes={max_themes}, mock={mock})")
     from .graph import Orchestrator
 

@@ -102,14 +102,14 @@
 
 ### Implementation
 
-- [ ] T034 [P] Implement URLVerifier class with httpx security config in src/groupmrk/verifier.py
-- [ ] T035 [P] Implement verify_single() with 5s timeout and max_redirects=1 in src/groupmrk/verifier.py
-- [ ] T036 [P] Implement verify_batch() with 10 concurrent connections in src/groupmrk/verifier.py
-- [ ] T037 [P] Configure httpx: HEAD-only requests, SSL verify enabled in src/groupmrk/verifier.py
-- [ ] T038 Skip local network URLs from verification in src/groupmrk/verifier.py
-- [ ] T039 Integrate URL verification into parser flow in src/groupmrk/parser.py
-- [ ] T040 Mark unreachable URLs with warning status in src/groupmrk/parser.py
-- [ ] T041 Output verification summary to console (valid/invalid/unreachable) in src/groupmrk/cli.py
+- [X] T034 [P] Implement URLVerifier class with httpx security config in src/groupmrk/verifier.py
+- [X] T035 [P] Implement verify_single() with 5s timeout and max_redirects=1 in src/groupmrk/verifier.py
+- [X] T036 [P] Implement verify_batch() with 10 concurrent connections in src/groupmrk/verifier.py
+- [X] T037 [P] Configure httpx: HEAD-only requests, SSL verify enabled in src/groupmrk/verifier.py
+- [X] T038 Skip local network URLs from verification in src/groupmrk/verifier.py
+- [X] T039 Integrate URL verification into parser flow in src/groupmrk/parser.py
+- [X] T040 Mark unreachable URLs with warning status in src/groupmrk/parser.py
+- [X] T041 Output verification summary to console (valid/invalid/unreachable) in src/groupmrk/cli.py
 
 ### Tests
 
