@@ -4,14 +4,23 @@ Um programa de organização de favoritos do navegador com IA. Organize, pesquis
 
 ---
 
-## Sumário / Summary
+## Sumário
 
-- [O que é / What is this](#o-que-é--what-is-this)
-- [Como instalar / How to install](#como-instalar--how-to-install)
-- [Como usar / How to use](#como-usar--how-to-use)
-- [Início rápido / Quick start](#início-rápido--quick-start)
-- [Solução de problemas / Troubleshooting](#solução-de-problemas--troubleshooting)
-- [Licença / License](#licença--license)
+- [Descrição do projeto](#descrição-do-projeto)
+- [Como instalar](#como-instalar-passo-a-passo)
+- [Como usar](#como-usar-passo-a-passo)
+- [Início rápido](#início-rápido-5-minutos)
+- [Solução de problemas](#solução-de-problemas)
+- [Licença](#licença)
+
+## Summary
+
+- [What is this](#what-is-this)
+- [How to install](#how-to-install-step-by-step)
+- [How to use](#how-to-use-step-by-step)
+- [Quick start](#quick-start-5-minutes)
+- [Troubleshooting](#troubleshooting)
+- [License](#license)
 
 ---
 
@@ -19,9 +28,22 @@ Um programa de organização de favoritos do navegador com IA. Organize, pesquis
 
 ### What is this?
 
-**groupmrk** is a simple program that helps you organize your browser bookmarks (also called "favorites") using artificial intelligence. You give it your bookmarks, and it automatically organizes them into groups like "Development", "Tutorials", "News", and more.
+**groupmrk** helps you organize your browser bookmarks (also called "favorites") automatically using artificial intelligence.
 
-You don't need to know anything about programming to use it!
+#### The problem
+After years of saving bookmarks, most people have hundreds (or thousands!) of links scattered in messy folders. When you need something specific, it's faster to Google it again than to find what you already saved. Your bookmarks become useless.
+
+#### The solution
+You give groupmrk your saved bookmarks, and it organizes them for you automatically.
+
+#### How it works
+1. Export your bookmarks from your browser (Chrome, Firefox, Edge, etc.)
+2. Run groupmrk to analyze and organize them
+3. Import the organized version back to your browser
+
+The AI reads each bookmark title and URL, understands what it's about, and groups related links together - like "Python Tutorials", "Recipes", "Work Projects", "News Sites".
+
+No programming knowledge needed!
 
 ### What can it do?
 
@@ -259,11 +281,24 @@ MIT - Free to use, modify, and share!
 
 ## Português
 
-### O que é isto?
+### Descrição do projeto
 
-**groupmrk** é um programa que ajuda você a organizar seus favoritos do navegador usando inteligência artificial. Você entrega os favoritos e ele organiza automaticamente em grupos como "Desenvolvimento", "Tutoriais", "Notícias", e mais.
+**groupmrk** ajuda você a organizar seus favoritos do navegador (também chamados de "marcadores") automaticamente usando inteligência artificial.
 
-Você não precisa saber programação para usar!
+#### O problema
+Depois de anos salvando favoritos, a maioria das pessoas tem centenas (ou milhares!) de links espalhados em pastas bagunçadas. Quando você precisa de algo específico, é mais rápido pesquisar no Google do que encontrar o que já tinha guardado. Seus favoritos se tornam inúteis.
+
+#### A solução
+Você entrega seus favoritos salvos para o groupmrk, e ele organiza tudo automaticamente para você.
+
+#### Como funciona
+1. Exporte seus favoritos do seu navegador (Chrome, Firefox, Edge, etc.)
+2. Execute o groupmrk para analisar e organizar
+3. Importe a versão organizada de volta ao navegador
+
+A inteligência artificial lê o título e URL de cada favorito, entende do que se trata, e agrupa links relacionados juntos - como "Tutoriais Python", "Receitas", "Projetos do Trabalho", "Sites de Notícias".
+
+Não precisa saber programação!
 
 ### O que ele faz?
 
@@ -506,7 +541,7 @@ Even if you are a beginner, you can help improve this project!
 Este projeto foi criado com duas ferramentas especiais que tornam a contribuição fácil:
 
 ### Speckit
-https://github.com/anomalyco/speckit
+https://https://github.com/github/spec-kit
 
 Speckit é uma ferramenta que ajuda a planejar e organizar o desenvolvimento de projetos. Ela te guia passo a passo, desde a ideia até a implementação, sem precisar ser um expert.
 
