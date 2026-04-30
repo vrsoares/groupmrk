@@ -44,9 +44,9 @@
 
 ### Tests
 
-- [ ] T019 [P] [US1] Create tests/unit/test_validator.py with pattern detection tests
-- [ ] T020 [P] [US1] Add validation integration tests in tests/unit/test_parser.py
-- [ ] T021 [P] [US1] Add edge case tests for malformed URLs in tests/unit/test_validator.py
+- [X] T019 [P] [US1] Create tests/unit/test_validator.py with pattern detection tests
+- [X] T020 [P] [US1] Add validation integration tests in tests/unit/test_parser.py
+- [X] T021 [P] [US1] Add edge case tests for malformed URLs in tests/unit/test_validator.py
 
 ## Phase 4: User Story 2 - Remove Duplicate Bookmarks (P2)
 
@@ -62,7 +62,7 @@
 
 ### Tests
 
-- [ ] T025 [P] [US2] Add deduplication tests in tests/unit/test_parser.py
+- [X] T025 [P] [US2] Add deduplication tests in tests/unit/test_parser.py
 
 ## Phase 5: User Story 3 - Group Local Links Together (P3)
 
@@ -79,7 +79,7 @@
 
 ### Tests
 
-- [ ] T030 [P] [US3] Add local link detection tests in tests/unit/test_validator.py
+- [X] T030 [P] [US3] Add local link detection tests in tests/unit/test_validator.py
 
 ## Phase 6: User Story 4 - Separate IP Address URLs (P4)
 
@@ -94,7 +94,7 @@
 
 ### Tests
 
-- [ ] T033 [P] [US4] Add IP address detection tests in tests/unit/test_validator.py
+- [X] T033 [P] [US4] Add IP address detection tests in tests/unit/test_validator.py
 
 ## Phase 7: URL Verification
 
@@ -113,14 +113,14 @@
 
 ### Tests
 
-- [ ] T042 [P] Create tests/unit/test_verifier.py with mock HTTP tests
+- [X] T042 [P] Create tests/unit/test_verifier.py with mock HTTP tests
 
 ## Phase 8: Polish & Cross-Cutting
 
-- [X] T043 Run all existing tests to verify no regression
-- [X] T044 Verify performance (< 50% overhead with dedup enabled)
+- [ ] T043 Run all existing tests to verify no regression
+- [ ] T044 Verify performance (< 50% overhead with dedup enabled)
 - [ ] T045 Add end-to-end integration test for full parser flow
-- [X] T046 Update README if needed for new features
+- [ ] T046 Update README if needed for new features
 
 ---
 
