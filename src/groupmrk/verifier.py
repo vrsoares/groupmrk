@@ -6,7 +6,7 @@ import logging
 import re
 import socket
 from typing import Optional
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 
 import httpx
 
@@ -56,11 +56,29 @@ def redact_url(url: str) -> str:
     return parsed._replace(query=query, path=path).geturl()
 
 
+def _sanitize_error(error: str) -> str:
+    """Sanitize error message to remove sensitive data."""
+    # Remove anything that looks like a URL with credentials
+    error = re.sub(r"://[^@]+@", "://[REDACTED]@", error)
+    # Remove long hex strings (potential tokens)
+    error = re.sub(r"[a-fA-F0-9]{32,}", "[REDACTED]", error)
+    return error
+
+
 def has_safe_extension(url: str) -> bool:
     """Check if URL has a safe file extension for GET fallback."""
     parsed = urlparse(url)
     path = parsed.path.lower()
     return any(path.endswith(ext) for ext in SAFE_EXTENSIONS)
+
+
+def _normalize_url(url: str) -> str:
+    """Normalize URL for comparison (lowercase scheme/host, strip trailing slash)."""
+    parsed = urlparse(url)
+    scheme = parsed.scheme.lower()
+    netloc = parsed.netloc.lower().rstrip("/")
+    path = parsed.path.rstrip("/") or "/"
+    return f"{scheme}://{netloc}{path}"
 
 
 def _is_private_ip(ip_str: str) -> bool:
@@ -123,6 +141,8 @@ class URLVerifier:
         self.timeout = timeout
         self.max_redirects = max_redirects
         self.requests_made = 0
+        self.get_fallback_attempts = 0
+        self.get_fallback_successes = 0
         self._semaphore = asyncio.Semaphore(5)
 
     def _check_request_limit(self) -> bool:
@@ -188,6 +208,19 @@ class URLVerifier:
                     error="Request limit reached during redirect",
                 )
 
+            # Re-verify IP before each request (DNS rebinding protection)
+            if hop > 0:
+                parsed = urlparse(current_url)
+                if parsed.hostname:
+                    resolved_ip = _resolve_and_check_ip(parsed.hostname)
+                    if resolved_ip is None:
+                        logger.warning("Private IP detected before request: %s", parsed.hostname)
+                        return VerificationResult(
+                            outcome=VerificationOutcome.FILTERED_SSRF,
+                            redirect_chain=redirect_chain,
+                            error=f"Private IP detected: {parsed.hostname}",
+                        )
+
             try:
                 self._increment_requests()
                 async with httpx.AsyncClient(
@@ -198,6 +231,15 @@ class URLVerifier:
                     response = await client.head(current_url)
 
                 status = response.status_code
+
+                # Handle 304 Not Modified (before general 3xx)
+                if status == 304:
+                    return VerificationResult(
+                        outcome=VerificationOutcome.VALID,
+                        status_code=status,
+                        final_url=current_url,
+                        redirect_chain=redirect_chain,
+                    )
 
                 # Handle redirects (3xx)
                 if 300 <= status < 400:
@@ -211,10 +253,9 @@ class URLVerifier:
                             error="Redirect without Location header",
                         )
 
-                    # Resolve relative URLs
-                    if location.startswith("/"):
-                        parsed = urlparse(current_url)
-                        location = f"{parsed.scheme}://{parsed.netloc}{location}"
+                    # Use urljoin for proper relative URL resolution
+                    # Handles /path, //host, and full URLs correctly
+                    location = urljoin(current_url, location)
 
                     # Check for dangerous schemes
                     loc_parsed = urlparse(location)
@@ -250,8 +291,10 @@ class URLVerifier:
                                 error=f"Private IP in redirect: {loc_parsed.hostname}",
                             )
 
-                    # Detect redirect loops
-                    if location in redirect_chain:
+                    # Detect redirect loops (normalized comparison)
+                    normalized_location = _normalize_url(location)
+                    normalized_chain = [_normalize_url(u) for u in redirect_chain]
+                    if normalized_location in normalized_chain:
                         logger.warning("Redirect loop detected: %s", redact_url(location))
                         return VerificationResult(
                             outcome=VerificationOutcome.FILTERED_LOOP,
@@ -268,15 +311,6 @@ class URLVerifier:
                 if 200 <= status < 300:
                     return VerificationResult(
                         outcome=VerificationOutcome.REDIRECT_FOLLOWED if len(redirect_chain) > 1 else VerificationOutcome.VALID,
-                        status_code=status,
-                        final_url=current_url,
-                        redirect_chain=redirect_chain,
-                    )
-
-                # Handle 304 Not Modified
-                if status == 304:
-                    return VerificationResult(
-                        outcome=VerificationOutcome.VALID,
                         status_code=status,
                         final_url=current_url,
                         redirect_chain=redirect_chain,
@@ -304,8 +338,9 @@ class URLVerifier:
                         )
 
                     # Check for safe extension GET fallback
-                    if has_safe_extension(url):
-                        return await self._try_get_fallback(url, redirect_chain, status)
+                    # Use current_url (after redirects) not original url
+                    if has_safe_extension(current_url):
+                        return await self._try_get_fallback(current_url, redirect_chain, status)
 
                     return VerificationResult(
                         outcome=VerificationOutcome.FILTERED_4XX,
@@ -317,9 +352,9 @@ class URLVerifier:
 
                 # Handle 405 Method Not Allowed
                 if status == 405:
-                    # Try GET fallback for safe extensions
-                    if has_safe_extension(url):
-                        return await self._try_get_fallback(url, redirect_chain, status)
+                    # Try GET fallback for safe extensions (use current_url)
+                    if has_safe_extension(current_url):
+                        return await self._try_get_fallback(current_url, redirect_chain, status)
 
                     return VerificationResult(
                         outcome=VerificationOutcome.FILTERED_4XX,
@@ -376,18 +411,18 @@ class URLVerifier:
                     error="Request timeout",
                 )
             except httpx.ConnectError as e:
-                logger.warning("Connection error: %s - %s", redact_url(current_url), e)
+                logger.warning("Connection error: %s", redact_url(current_url))
                 return VerificationResult(
                     outcome=VerificationOutcome.FILTERED_CONNECTION,
                     redirect_chain=redirect_chain,
-                    error=f"Connection error: {e}",
+                    error=_sanitize_error(f"Connection error: {e}"),
                 )
             except Exception as e:
-                logger.warning("Error verifying %s: %s", redact_url(current_url), e)
+                logger.warning("Error verifying %s", redact_url(current_url))
                 return VerificationResult(
                     outcome=VerificationOutcome.FILTERED_CONNECTION,
                     redirect_chain=redirect_chain,
-                    error=f"Error: {e}",
+                    error=_sanitize_error(f"Error: {e}"),
                 )
 
         # Exceeded max redirects
@@ -401,12 +436,26 @@ class URLVerifier:
         self, url: str, redirect_chain: list[str], head_status: int
     ) -> VerificationResult:
         """Try GET request as fallback for HEAD (check Content-Length only)."""
+        self.get_fallback_attempts += 1
+
         if not self._check_request_limit():
             return VerificationResult(
                 outcome=VerificationOutcome.FILTERED_CONNECTION,
                 redirect_chain=redirect_chain,
                 error="Request limit reached",
             )
+
+        # Re-verify IP before GET fallback (DNS rebinding protection)
+        parsed = urlparse(url)
+        if parsed.hostname:
+            resolved_ip = _resolve_and_check_ip(parsed.hostname)
+            if resolved_ip is None:
+                logger.warning("Private IP in GET fallback: %s", parsed.hostname)
+                return VerificationResult(
+                    outcome=VerificationOutcome.FILTERED_SSRF,
+                    redirect_chain=redirect_chain,
+                    error=f"Private IP in GET fallback: {parsed.hostname}",
+                )
 
         try:
             self._increment_requests()
@@ -419,13 +468,29 @@ class URLVerifier:
 
             status = response.status_code
 
-            # Check Content-Length (don't read body)
+            # Check Content-Length header only (don't read body)
             content_length = response.headers.get("content-length")
+            if content_length:
+                try:
+                    size = int(content_length)
+                    if size > 1_000_000:  # 1MB limit
+                        logger.warning("GET fallback: file too large (%d bytes): %s", size, redact_url(url))
+                        await response.aclose()
+                        return VerificationResult(
+                            outcome=VerificationOutcome.FILTERED_4XX,
+                            status_code=status,
+                            final_url=url,
+                            redirect_chain=redirect_chain,
+                            error=f"File too large: {size} bytes",
+                        )
+                except ValueError:
+                    pass  # Invalid Content-Length, continue
 
-            # Close immediately
+            # Close immediately without reading body
             await response.aclose()
 
             if 200 <= status < 300:
+                self.get_fallback_successes += 1
                 logger.info("GET fallback succeeded for %s (HEAD was %d)", redact_url(url), head_status)
                 return VerificationResult(
                     outcome=VerificationOutcome.VALID,
@@ -443,11 +508,11 @@ class URLVerifier:
             )
 
         except Exception as e:
-            logger.warning("GET fallback error: %s - %s", redact_url(url), e)
+            logger.warning("GET fallback error: %s", redact_url(url))
             return VerificationResult(
                 outcome=VerificationOutcome.FILTERED_CONNECTION,
                 redirect_chain=redirect_chain,
-                error=f"GET fallback error: {e}",
+                error=_sanitize_error(f"GET fallback error: {e}"),
             )
 
     async def verify_batch(self, urls: list[str]) -> list[VerificationResult]:
@@ -463,10 +528,10 @@ class URLVerifier:
             )
             for url, result in zip(batch, batch_results):
                 if isinstance(result, Exception):
-                    logger.error("Unexpected error for %s: %s", redact_url(url), result)
+                    logger.error("Unexpected error for %s", redact_url(url))
                     results.append(VerificationResult(
                         outcome=VerificationOutcome.FILTERED_CONNECTION,
-                        error=f"Unexpected error: {result}",
+                        error=_sanitize_error(f"Unexpected error: {result}"),
                     ))
                 else:
                     results.append(result)

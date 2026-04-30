@@ -20,7 +20,6 @@ Seguranca: Todas as entradas do usuario sao validadas e sanitizadas.
 
 import asyncio
 import logging
-import sys
 from pathlib import Path
 
 import click
@@ -65,21 +64,27 @@ def main():
 )
 def import_cmd(input_file, output, max_themes, provider, mock):
     """Import and organize bookmarks using AI."""
-    logger.info(f"Starting import command for file: {input_file}")
+    logger.info("Starting import command for file: %s", input_file)
     click.echo(f"Importing bookmarks from: {input_file}")
 
     # Step 1: Parse HTML
     logger.info("Step 1/5: Parsing HTML file")
     parser = BookmarkParser()
     collection = parser.parse_file(input_file)
-    logger.info(f"Step 1/5 complete: Parsed {collection.metadata.total_count} bookmarks")
-    click.echo(f"Parsed {collection.metadata.total_count} bookmarks")
+    total = collection.metadata.total_count
+    logger.info("Step 1/5 complete: Parsed %d bookmarks", total)
+    click.echo(f"Parsed {total} bookmarks")
 
     # Step 2: Verify URLs
     logger.info("Step 2/5: Verifying URLs")
-    click.echo("Verifying URLs (checking reachability)...")
+    click.echo("Verifying URLs (checking if links work)...")
     verifier = URLVerifier()
-    verification_results = asyncio.run(verifier.verify_batch([b.url for b in collection.bookmarks]))
+
+    # Use get_event_loop to avoid conflicts with existing event loops
+    loop = asyncio.get_event_loop()
+    verification_results = loop.run_until_complete(
+        verifier.verify_batch([b.url for b in collection.bookmarks])
+    )
 
     # Apply verification results
     for bookmark, result in zip(collection.bookmarks, verification_results):
@@ -94,6 +99,8 @@ def import_cmd(input_file, output, max_themes, provider, mock):
     collection.metadata.reachable_count = collection.metadata.security_valid_count
     collection.metadata.filtered_count = sum(1 for b in collection.bookmarks if not b.is_reachable)
     collection.metadata.requests_made = verifier.requests_made
+    collection.metadata.extension_get_attempts = verifier.get_fallback_attempts
+    collection.metadata.extension_get_successes = verifier.get_fallback_successes
 
     # Count by filter type
     for b, r in zip(collection.bookmarks, verification_results):
@@ -122,75 +129,70 @@ def import_cmd(input_file, output, max_themes, provider, mock):
         if b.redirect_chain and len(b.redirect_chain) > 1
     )
 
-    # Count GET fallback attempts
-    collection.metadata.extension_get_attempts = sum(
-        1 for b in collection.bookmarks if b.is_safe_extension
-    )
-
     # Filter unreachable bookmarks
     reachable_bookmarks = [b for b in collection.bookmarks if b.is_reachable]
-    logger.info(
-        f"Step 2/5 complete: {len(reachable_bookmarks)} reachable, "
-        f"{collection.metadata.filtered_count} filtered"
-    )
-    click.echo(
-        f"Verified: {len(reachable_bookmarks)} reachable, "
-        f"{collection.metadata.filtered_count} filtered"
-    )
+    reachable_count = len(reachable_bookmarks)
+    filtered_count = collection.metadata.filtered_count
+    logger.info("Step 2/5 complete: %d reachable, %d filtered", reachable_count, filtered_count)
 
-    # Show filter breakdown
-    if collection.metadata.filtered_count > 0:
+    # Show user-friendly statistics
+    click.echo(f"Done! {reachable_count} links work, {filtered_count} removed")
+
+    # Show filter breakdown in user-friendly way
+    if filtered_count > 0:
         filter_parts = []
         if collection.metadata.filtered_4xx > 0:
-            filter_parts.append(f"4xx: {collection.metadata.filtered_4xx}")
+            filter_parts.append(f"not found: {collection.metadata.filtered_4xx}")
         if collection.metadata.filtered_5xx > 0:
-            filter_parts.append(f"5xx: {collection.metadata.filtered_5xx}")
+            filter_parts.append(f"server error: {collection.metadata.filtered_5xx}")
         if collection.metadata.filtered_timeout > 0:
-            filter_parts.append(f"Timeout: {collection.metadata.filtered_timeout}")
+            filter_parts.append(f"too slow: {collection.metadata.filtered_timeout}")
         if collection.metadata.filtered_connection > 0:
-            filter_parts.append(f"Connection: {collection.metadata.filtered_connection}")
+            filter_parts.append(f"unreachable: {collection.metadata.filtered_connection}")
         if collection.metadata.filtered_ssrf > 0:
-            filter_parts.append(f"SSRF: {collection.metadata.filtered_ssrf}")
+            filter_parts.append(f"blocked: {collection.metadata.filtered_ssrf}")
         if filter_parts:
-            click.echo(f"  Filtered: {', '.join(filter_parts)}")
+            click.echo(f"  ({', '.join(filter_parts)})")
 
     if collection.metadata.redirects_followed > 0:
-        click.echo(f"  Redirects followed: {collection.metadata.redirects_followed}")
+        click.echo(f"  ({collection.metadata.redirects_followed} links updated to new addresses)")
 
     # Update collection to only have reachable bookmarks
     collection.bookmarks = reachable_bookmarks
 
     # Step 3: Organize with AI
-    logger.info(f"Step 3/5: Organizing with AI (provider={provider}, max_themes={max_themes}, mock={mock})")
+    logger.info("Step 3/5: Organizing with AI (provider=%s, max_themes=%d, mock=%s)", provider, max_themes, mock)
     from .graph import Orchestrator
 
     orchestrator = Orchestrator(provider=provider, max_themes=max_themes, mock=mock)
     collection = orchestrator.organize(collection)
-    logger.info(f"Step 3/5 complete: Organized into {len(collection.themes)} themes")
-    click.echo(f"Organized into {len(collection.themes)} themes")
+    themes_count = len(collection.themes)
+    logger.info("Step 3/5 complete: Organized into %d themes", themes_count)
+    click.echo(f"Organized into {themes_count} themes")
 
     if not output:
         output = Path(input_file).with_suffix(".organized.html")
-        logger.info(f"No output specified, using: {output}")
+        logger.info("No output specified, using: %s", output)
 
     # Step 4: Generate HTML
-    logger.info(f"Step 4/5: Generating HTML output")
+    logger.info("Step 4/5: Generating HTML output")
     generator = HTMLOutputGenerator()
     generator.write(collection, output)
-    logger.info(f"Step 4/5 complete: HTML generated")
+    logger.info("Step 4/5 complete: HTML generated")
 
     # Step 5: Write to file
-    logger.info(f"Step 5/5: Writing to file")
+    logger.info("Step 5/5: Writing to file")
     click.echo(f"Output written to: {output}")
 
-    # Show final statistics
-    click.echo(f"\n--- Statistics ---")
-    click.echo(f"Parsed: {collection.metadata.total_count} → "
-               f"Security Valid: {collection.metadata.security_valid_count} → "
-               f"Reachable: {collection.metadata.reachable_count} → "
-               f"Categorized: {len(collection.themes)} themes")
-    click.echo(f"Requests made: {collection.metadata.requests_made}")
-    logger.info(f"Import complete! Output: {output}")
+    # Show final statistics in user-friendly format
+    click.echo()
+    click.echo("--- Summary ---")
+    click.echo(f"Found: {total} bookmarks")
+    click.echo(f"Working: {reachable_count} links")
+    click.echo(f"Removed: {filtered_count} broken links")
+    click.echo(f"Groups: {themes_count} themes")
+    click.echo()
+    logger.info("Import complete! Output: %s", output)
 
 
 @main.command()
@@ -198,18 +200,18 @@ def import_cmd(input_file, output, max_themes, provider, mock):
 @click.argument("bookmark_file", type=click.Path(exists=True))
 def search(query, bookmark_file):
     """Search bookmarks using natural language."""
-    logger.info(f"Starting search: query='{query}', file={bookmark_file}")
+    logger.info("Starting search: query='%s', file=%s", query, bookmark_file)
     from .search import BookmarkSearch
 
     logger.info("Step 1/3: Parsing bookmark file")
     parser = BookmarkParser()
     collection = parser.parse_file(bookmark_file)
-    logger.info(f"Step 1/3 complete: {len(collection.bookmarks)} bookmarks loaded")
+    logger.info("Step 1/3 complete: %d bookmarks loaded", len(collection.bookmarks))
 
     logger.info("Step 2/3: Searching with natural language")
     searcher = BookmarkSearch(collection)
     results = searcher.search(query)
-    logger.info(f"Step 2/3 complete: Found {len(results)} results")
+    logger.info("Step 2/3 complete: Found %d results", len(results))
 
     if not results:
         click.echo("No results found.")
@@ -225,7 +227,7 @@ def search(query, bookmark_file):
         if result.get("explanation"):
             click.echo(f"    Why: {result['explanation']}")
         click.echo()
-    logger.info(f"Search complete: {len(results)} results shown")
+    logger.info("Search complete: %d results shown", len(results))
 
 
 @main.command()
@@ -238,22 +240,23 @@ def search(query, bookmark_file):
 )
 def export(input_file, output_file, category):
     """Export organized bookmarks to HTML."""
-    logger.info(f"Starting export: input={input_file}, output={output_file}, category={category}")
+    logger.info("Starting export: input=%s, output=%s, category=%s", input_file, output_file, category)
     parser = BookmarkParser()
     collection = parser.parse_file(input_file)
 
     if category:
-        logger.info(f"Filtering by category: {category}")
-        for bookmark in collection.bookmarks:
-            if bookmark.theme != category and bookmark.manual_category != category:
-                collection.bookmarks.remove(bookmark)
+        logger.info("Filtering by category: %s", category)
+        collection.bookmarks = [
+            b for b in collection.bookmarks
+            if b.theme == category or b.manual_category == category
+        ]
 
     logger.info("Generating HTML output")
     generator = HTMLOutputGenerator()
     generator.write(collection, output_file)
 
     click.echo(f"Exported {len(collection.bookmarks)} bookmarks to: {output_file}")
-    logger.info(f"Export complete: {len(collection.bookmarks)} bookmarks exported")
+    logger.info("Export complete: %d bookmarks exported", len(collection.bookmarks))
 
 
 @main.command()
@@ -270,20 +273,20 @@ def export(input_file, output_file, category):
 )
 def organize(input_file, set_category, max_themes):
     """Organize bookmarks into themes."""
-    logger.info(f"Starting organize: file={input_file}, set_category={set_category}, max_themes={max_themes}")
+    logger.info("Starting organize: file=%s, set_category=%s, max_themes=%d", input_file, set_category, max_themes)
     parser = BookmarkParser()
     collection = parser.parse_file(input_file)
 
     if set_category:
         title_pattern, new_category = set_category
-        logger.info(f"Manual category override: pattern='{title_pattern}', category='{new_category}'")
+        logger.info("Manual category override: pattern='%s', category='%s'", title_pattern, new_category)
         count = 0
         for bookmark in collection.bookmarks:
             if title_pattern.lower() in bookmark.title.lower():
                 bookmark.manual_category = new_category
                 count += 1
         click.echo(f"Updated {count} bookmarks to category: {new_category}")
-        logger.info(f"Category override complete: {count} bookmarks updated")
+        logger.info("Category override complete: %d bookmarks updated", count)
     else:
         logger.info("AI organization requested")
         from .graph import Orchestrator
@@ -291,7 +294,7 @@ def organize(input_file, set_category, max_themes):
         orchestrator = Orchestrator(max_themes=max_themes)
         collection = orchestrator.organize(collection)
         click.echo(f"Organized into {len(collection.themes)} themes")
-        logger.info(f"AI organization complete: {len(collection.themes)} themes")
+        logger.info("AI organization complete: %d themes", len(collection.themes))
 
     logger.info("Generating output file")
     output_file = Path(input_file).with_suffix(".organized.html")
@@ -299,7 +302,7 @@ def organize(input_file, set_category, max_themes):
     generator.write(collection, output_file)
 
     click.echo(f"Output written to: {output_file}")
-    logger.info(f"Organize complete! Output: {output_file}")
+    logger.info("Organize complete! Output: %s", output_file)
 
 
 if __name__ == "__main__":
