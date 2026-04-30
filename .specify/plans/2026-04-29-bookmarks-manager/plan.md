@@ -1,6 +1,6 @@
 # Implementation Plan: 001-bookmarks-manager
 
-**Branch**: `001-bookmarks-manager` | **Date**: 2026-04-29 | **Spec**: [spec.md](../specs/001-bookmark-manager/spec.md)
+**Branch**: `001-bookmarks-manager` | **Date**: 2026-04-29 | **Spec**: [spec.md](../specs/001-bookmarks-manager/spec.md)
 
 ## Summary
 
