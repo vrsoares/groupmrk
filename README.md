@@ -21,15 +21,7 @@ You don't need to know anything about programming to use it!
 
 ### How to Install (Step by Step)
 
-**IMPORTANT: Installation vs Running**
-
-There are two different moments:
-
-1. **Installing** (downloading the program): You can do this from anywhere - your terminal starts in your home folder, and that's fine!
-
-2. **Running** (using the program): You need to go to the folder where your bookmarks file is!
-
-Choose your computer below to install:
+Choose your computer below and follow the steps:
 
 #### Windows
 
@@ -115,29 +107,24 @@ Choose your computer below to install:
 
 ---
 
-## How to Use (Examples)
+## How to Use (Step by Step)
 
-### IMPORTANT: Where to Run Commands
+### Step 1: Export Your Bookmarks from Browser
 
-Before running any command, you need to be in the **folder where your bookmarks file is**!
+1. Open your browser (Chrome, Firefox, Edge, etc.)
+2. Find the "Export Bookmarks" option:
+   - **Chrome**: Menu → Bookmarks → Bookmark manager → Export
+   - **Firefox**: Menu → Bookmarks → Show all bookmarks → Import and Backup → Export
+   - **Edge**: Menu → Favorites → Export favorites
+3. Save the file as "bookmarks.html"
 
-If you downloaded the repository to organize your bookmarks:
-1. Extract the repository to a folder (like "groupmrk" or "bookmarks")
-2. Put your bookmarks.html file in that same folder
-3. Navigate to that folder in your terminal
+### Step 2: Put the File Here
 
-**Check your current folder:**
-- **Windows**: In Command Prompt, look at what comes before the `>` symbol
-  - Example: `C:\Users\YourName\groupmrk>` - you're in the "groupmrk" folder
-  
-- **macOS/Linux**: In Terminal, look at what comes before `$`
-  - Example: `~/groupmrk$` - you're in the "groupmrk" folder
+Copy the "bookmarks.html" file and paste it in the same folder where this README file is (the project root).
 
-**To change folder:**
-- **Windows**: `cd groupmrk` (or `cd Documents\groupmrk`)
-- **macOS/Linux**: `cd groupmrk` (or `cd Documents/groupmrk`)
+### Step 3: Run the Program
 
-**Tip**: If your bookmarks file is in "Downloads", go to Downloads first!
+Now you're ready to organize!
 
 ### 1. Organize Your Bookmarks
 
@@ -234,15 +221,7 @@ Voce nao precisa saber programacao para usar!
 
 ### Como Instalar (Passo a Passo)
 
-**IMPORTANTE: Instalacao vs Execucao**
-
-Ha dois momentos diferentes:
-
-1. **Instalando** (baixando o programa): Voce pode fazer isso de qualquer lugar - seu terminal comeca na sua pasta pessoal, e tudo bem!
-
-2. **Executando** (usando o programa): Voce precisa ir para a pasta onde esta o arquivo de favoritos!
-
-Escolha seu computador abaixo para instalar:
+Escolha seu computador abaixo e siga os passos:
 
 #### Windows
 
@@ -328,29 +307,24 @@ Escolha seu computador abaixo para instalar:
 
 ---
 
-## Como Usar (Exemplos)
+## Como Usar (Passo a Passo)
 
-### IMPORTANTE: Onde Executar os Comandos
+### Passo 1: Exportar Seus Favoritos do Navegador
 
-Antes de executar qualquer comando, voce precisa estar na **pasta onde esta o arquivo de favoritos**!
+1. Abra seu navegador (Chrome, Firefox, Edge, etc.)
+2. Encontre a opcao "Exportar Favoritos":
+   - **Chrome**: Menu → Favoritos → Gerenciador de favoritos → Exportar
+   - **Firefox**: Menu → Favoritos → Mostrar todos → Importar e Exportar → Exportar
+   - **Edge**: Menu → Favoritos → Exportar favoritos
+3. Salve o arquivo como "bookmarks.html"
 
-Se voce baixou o repositorio para organizar seus favoritos:
-1. Extraia o repositorio para uma pasta (como "groupmrk" ou "favoritos")
-2. Coloque seu arquivo bookmarks.html nessa mesma pasta
-3. Navegue ate essa pasta no seu terminal
+### Passo 2: Colar o Arquivo Aqui
 
-**Verificar sua pasta atual:**
-- **Windows**: No Prompt de Comando, olhe o que vem antes do simbolo `>`
-  - Exemplo: `C:\Users\SeuNome\groupmrk>` - voce esta na pasta "groupmrk"
-  
-- **macOS/Linux**: No Terminal, olhe o que vem antes de `$`
-  - Exemplo: `~/groupmrk$` - voce esta na pasta "groupmrk"
+Copie o arquivo "bookmarks.html" e cole na mesma pasta onde este arquivo README esta (a pasta raiz do projeto).
 
-**Para mudar de pasta:**
-- **Windows**: `cd groupmrk` (ou `cd Documentos\groupmrk`)
-- **macOS/Linux**: `cd groupmrk` (ou `cd Documents/groupmrk`)
+### Passo 3: Executar o Programa
 
-**Dica**: Se seu arquivo de favoritos estiver em "Downloads", va para Downloads primeiro!
+Agora voce esta pronto para organizar!
 
 ### 1. Organizar seus Favoritos
 
