@@ -62,7 +62,7 @@ def validate_url(url_string: str) -> ValidationResult:
             patterns_found=patterns_found,
         )
 
-    if parsed.scheme and parsed.scheme.lower() not in ("http", "https", "file", ""):
+    if parsed.scheme and parsed.scheme.lower() not in ("http", "https", ""):
         return ValidationResult(
             is_valid=False,
             is_suspicious=False,

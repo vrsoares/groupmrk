@@ -29,9 +29,10 @@ class TestValidateURL:
         assert result.is_valid is True
 
     def test_validate_url_accepts_file_url(self):
-        """Test that validate_url accepts file:// URLs."""
+        """Test that validate_url rejects file:// URLs (security)."""
         result = validate_url("file:///path/to/file.html")
-        assert result.is_valid is True
+        assert result.is_valid is False
+        assert "Invalid scheme" in result.reason
 
     def test_validate_url_rejects_empty_url(self):
         """Test that validate_url rejects empty URLs."""
@@ -308,9 +309,10 @@ class TestLocalURLDetection:
         assert is_local_url("https://google.com") is False
 
     def test_is_local_url_handles_file_url(self):
-        """Test that file:// URLs are handled."""
+        """Test that file:// URLs are rejected (security)."""
         result = validate_url("file:///path/to/file")
-        assert result.is_valid is True
+        assert result.is_valid is False
+        assert "Invalid scheme" in result.reason
 
 
 class TestIPAddressDetection:
