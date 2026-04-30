@@ -27,8 +27,8 @@ python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "-v"
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "pytest>=8.0.0",
     "ruff>=0.4.0",
 ]
