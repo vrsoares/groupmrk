@@ -16,3 +16,4 @@ wheels/
 .specify/*
 !.specify/memory/
 !.specify/templates/
+!.specify/plans/
