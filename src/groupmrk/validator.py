@@ -1,4 +1,16 @@
-"""URL validation module for security checks."""
+"""URL validation module for security checks.
+
+This module validates URLs to ensure they are safe and properly formatted.
+It checks for dangerous patterns like SQL injection, XSS attacks, and
+ensures URLs don't point to internal private networks.
+
+Simple language guide:
+- validate_url: Check if a URL is safe to use
+- is_local_url: Check if URL is from your private network (like home WiFi)
+- is_ip_address: Check if URL uses numbers instead of a website name
+- normalize_url: Clean up a URL so duplicates can be found
+- redact_sensitive_params: Hide passwords/tokens in logs so they can't be seen
+"""
 
 from typing import Optional
 from urllib.parse import urlparse

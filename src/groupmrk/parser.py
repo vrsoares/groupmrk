@@ -6,6 +6,11 @@ Parse de arquivos HTML de favoritos do formato Netscape Bookmark.
 This parser safely handles user-provided HTML files without executing
 any embedded scripts or dangerous content. / Este parser manipula
 arquivos HTML de favoritos de forma segura, sem executar scripts.
+
+Simple language guide:
+- parse_file: Read a bookmark file from your computer
+- parse: Turn HTML into a list of bookmarks
+- The parser removes duplicates, finds local links, and checks URLs
 """
 
 import logging

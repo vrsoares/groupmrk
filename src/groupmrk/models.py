@@ -1,4 +1,14 @@
-"""Data models for bookmarks manager."""
+"""Data models for bookmarks manager.
+
+These are the building blocks that represent your bookmarks.
+
+Simple language guide:
+- URL: A website address that has been checked for safety
+- Bookmark: A saved link with its title and address
+- Theme: A category (like "Programming" or "News")
+- BookmarkCollection: All your bookmarks grouped together
+- InvalidURLLog: A record of unsafe URLs that were blocked
+"""
 
 from dataclasses import dataclass, field
 from datetime import datetime

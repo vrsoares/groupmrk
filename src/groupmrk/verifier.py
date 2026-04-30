@@ -1,4 +1,14 @@
-﻿"""URL verification module for HTTP HEAD requests."""
+﻿"""URL verification module for HTTP HEAD requests.
+
+This module checks if a website URL is working by sending a simple
+HTTP HEAD request (which is like a quick "is this there?" message).
+
+Simple language guide:
+- verify_url: Check if a website is online and working
+- verify_batch: Check many websites at once
+- The system skips checking local/private networks (home WiFi addresses)
+- All checks have a 5-second timeout to prevent hanging
+"""
 
 import logging
 from urllib.parse import urlparse
@@ -6,6 +16,7 @@ from urllib.parse import urlparse
 import httpx
 
 from .models import URLVerificationResult
+from .validator import redact_sensitive_params
 
 logger = logging.getLogger(__name__)
 
@@ -16,10 +27,19 @@ MAX_CONCURRENT: int = 10
 
 def verify_url(url_string: str, timeout: float = DEFAULT_TIMEOUT) -> URLVerificationResult:
     """Verify a URL is reachable via HTTP HEAD request."""
+    if not url_string or not url_string.strip():
+        return URLVerificationResult(
+            status_code=0,
+            is_reachable=False,
+            error_type="invalid_input",
+            verification_skipped=False,
+        )
+
     parsed_url = _extract_host(url_string)
 
     if parsed_url and _is_local_or_private(parsed_url):
-        logger.debug(f"Skipping verification for local URL: {url_string}")
+        safe_url = redact_sensitive_params(url_string)
+        logger.debug(f"Skipping verification for local URL: {safe_url}")
         return URLVerificationResult(
             status_code=0,
             is_reachable=False,
@@ -45,7 +65,8 @@ def verify_url(url_string: str, timeout: float = DEFAULT_TIMEOUT) -> URLVerifica
             )
 
     except httpx.TimeoutException:
-        logger.debug(f"Timeout verifying URL: {url_string}")
+        safe_url = redact_sensitive_params(url_string)
+        logger.debug(f"Timeout verifying URL: {safe_url}")
         return URLVerificationResult(
             status_code=0,
             is_reachable=False,
@@ -54,7 +75,8 @@ def verify_url(url_string: str, timeout: float = DEFAULT_TIMEOUT) -> URLVerifica
         )
 
     except httpx.ConnectError:
-        logger.debug(f"Connection error for URL: {url_string}")
+        safe_url = redact_sensitive_params(url_string)
+        logger.debug(f"Connection error for URL: {safe_url}")
         return URLVerificationResult(
             status_code=0,
             is_reachable=False,
@@ -64,15 +86,16 @@ def verify_url(url_string: str, timeout: float = DEFAULT_TIMEOUT) -> URLVerifica
 
     except Exception as e:
         error_str = str(e).lower()
+        safe_url = redact_sensitive_params(url_string)
         if "ssl" in error_str or "tls" in error_str or "certificate" in error_str:
-            logger.debug(f"SSL error for URL: {url_string}")
+            logger.debug(f"SSL error for URL: {safe_url}")
             return URLVerificationResult(
                 status_code=0,
                 is_reachable=False,
                 error_type="ssl",
                 verification_skipped=False,
             )
-        logger.debug(f"Error verifying URL {url_string}: {e}")
+        logger.debug(f"Error verifying URL {safe_url}: {e}")
         return URLVerificationResult(
             status_code=0,
             is_reachable=False,
