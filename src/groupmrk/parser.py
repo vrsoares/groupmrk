@@ -16,6 +16,7 @@ from typing import Optional
 from bs4 import BeautifulSoup, Tag
 
 from .models import Bookmark, BookmarkCollection
+from .validator import validate_url, redact_sensitive_params
 
 logger = logging.getLogger(__name__)
 
@@ -84,7 +85,9 @@ class BookmarkParser:
         logger.debug("Searching for bookmarks and folders")
         self._find_folder_context(soup, collection)
 
-        collection.metadata.total_count = len(collection.bookmarks)
+        collection.metadata.total_count = len(collection.bookmarks) + len(collection.invalid_urls)
+        collection.metadata.valid_count = len(collection.bookmarks)
+        collection.metadata.invalid_count = len(collection.invalid_urls)
         collection.metadata.categorized_count = sum(
             1 for b in collection.bookmarks if b.theme is not None
         )
@@ -111,11 +114,11 @@ class BookmarkParser:
             if tag.name == "h3":
                 current_folder = tag.get_text(strip=True)
             elif tag.name == "a" and tag.get("href"):
-                bookmark = self._parse_bookmark(tag, current_folder)
+                bookmark = self._parse_bookmark(tag, current_folder, collection)
                 if bookmark:
                     collection.add_bookmark(bookmark)
 
-    def _parse_bookmark(self, a: Tag, folder: str) -> Optional[Bookmark]:
+    def _parse_bookmark(self, a: Tag, folder: str, collection: BookmarkCollection) -> Optional[Bookmark]:
         """Parse an anchor tag into a Bookmark.
 
         Security: Validates URL scheme, sanitizes all inputs.
@@ -124,6 +127,7 @@ class BookmarkParser:
         Args:
             a: BeautifulSoup Tag representing an anchor element
             folder: Current folder context
+            collection: BookmarkCollection for logging invalid URLs
 
         Returns:
             Bookmark if valid, None if rejected (javascript:, empty, etc.)
@@ -131,9 +135,22 @@ class BookmarkParser:
         title = a.get_text(strip=True)
         url = a.get("href", "")
 
+        validation = validate_url(url)
+        if not validation.is_valid:
+            safe_url = redact_sensitive_params(url)
+            logger.warning(f"Invalid URL rejected: {safe_url} - {validation.reason}")
+            collection.add_invalid_url(url, validation.reason, folder)
+            return None
+
+        if validation.is_suspicious:
+            safe_url = redact_sensitive_params(url)
+            logger.warning(f"Suspicious URL: {safe_url} - {validation.reason}")
+            collection.add_invalid_url(url, validation.reason, folder)
+
         # Security: Reject dangerous URL schemes / Rejeita esquemas de URL perigosos
         if not url or url.startswith("javascript:") or url.startswith("data:"):
             logger.debug(f"Skipping unsafe URL: {url[:30]}...")
+            collection.add_invalid_url(url, "dangerous scheme", folder)
             return None
 
         # Security: Only allow http/https schemes / Apenas permite esquemas http/https

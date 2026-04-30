@@ -72,6 +72,13 @@ def import_cmd(input_file, output, max_themes, provider, mock):
     logger.info(f"Step 1/4 complete: Parsed {collection.metadata.total_count} bookmarks")
     click.echo(f"Parsed {collection.metadata.total_count} bookmarks")
 
+    if collection.metadata.invalid_count > 0:
+        click.echo(f"\n--- Security Validation ---")
+        click.echo(f"  Valid URLs: {collection.metadata.valid_count}")
+        click.echo(f"  Invalid URLs: {collection.metadata.invalid_count}")
+        click.echo(f"  Check logs for details")
+        logger.info(f"Validation: {collection.metadata.invalid_count} invalid URLs detected")
+
     logger.info(f"Step 2/4: Organizing with AI (provider={provider}, max_themes={max_themes}, mock={mock})")
     from .graph import Orchestrator
 

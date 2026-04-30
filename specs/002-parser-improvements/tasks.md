@@ -32,15 +32,15 @@
 
 ### Implementation
 
-- [ ] T010 [P] [US1] Implement validate_url() function in src/groupmrk/validator.py
-- [ ] T011 [P] [US1] Implement detect_sql_injection() pattern detection in src/groupmrk/validator.py
-- [ ] T012 [P] [US1] Implement detect_xss() pattern detection in src/groupmrk/validator.py
-- [ ] T013 [P] [US1] Implement detect_path_traversal() pattern detection in src/groupmrk/validator.py
-- [ ] T014 [P] [US1] Implement detect_invalid_characters() validation in src/groupmrk/validator.py
-- [ ] T015 [US1] Integrate validation into parser.py parse flow in src/groupmrk/parser.py
-- [ ] T016 [US1] Add invalid URL logging to collection (InvalidURLLog) in src/groupmrk/parser.py
-- [ ] T017 [US1] Output validation summary to console with valid/invalid counts in src/groupmrk/cli.py
-- [ ] T018 [US1] Implement secure logging (exclude sensitive query params from logs) in src/groupmrk/validator.py
+- [X] T010 [P] [US1] Implement validate_url() function in src/groupmrk/validator.py
+- [X] T011 [P] [US1] Implement detect_sql_injection() pattern detection in src/groupmrk/validator.py
+- [X] T012 [P] [US1] Implement detect_xss() pattern detection in src/groupmrk/validator.py
+- [X] T013 [P] [US1] Implement detect_path_traversal() pattern detection in src/groupmrk/validator.py
+- [X] T014 [P] [US1] Implement detect_invalid_characters() validation in src/groupmrk/validator.py
+- [X] T015 [US1] Integrate validation into parser.py parse flow in src/groupmrk/parser.py
+- [X] T016 [US1] Add invalid URL logging to collection (InvalidURLLog) in src/groupmrk/parser.py
+- [X] T017 [US1] Output validation summary to console with valid/invalid counts in src/groupmrk/cli.py
+- [X] T018 [US1] Implement secure logging (exclude sensitive query params from logs) in src/groupmrk/validator.py
 
 ### Tests
 
