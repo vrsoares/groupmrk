@@ -21,16 +21,15 @@ You don't need to know anything about programming to use it!
 
 ### How to Install (Step by Step)
 
-**IMPORTANT: Where to Run the Install Command**
+**IMPORTANT: Installation vs Running**
 
-Before installing, make sure you're in a suitable folder:
+There are two different moments:
 
-- **Windows**: After opening Command Prompt, you start in your user folder (like `C:\Users\YourName`)
-- **macOS/Linux**: After opening Terminal, you start in your home folder (like `~` or `/Users/YourName`)
+1. **Installing** (downloading the program): You can do this from anywhere - your terminal starts in your home folder, and that's fine!
 
-That's fine! You can run the install command from there. The program will be installed automatically.
+2. **Running** (using the program): You need to go to the folder where your bookmarks file is!
 
-Choose your computer below and follow the steps:
+Choose your computer below to install:
 
 #### Windows
 
@@ -120,20 +119,25 @@ Choose your computer below and follow the steps:
 
 ### IMPORTANT: Where to Run Commands
 
-Before running any command, you need to be in the right folder!
+Before running any command, you need to be in the **folder where your bookmarks file is**!
+
+If you downloaded the repository to organize your bookmarks:
+1. Extract the repository to a folder (like "groupmrk" or "bookmarks")
+2. Put your bookmarks.html file in that same folder
+3. Navigate to that folder in your terminal
 
 **Check your current folder:**
 - **Windows**: In Command Prompt, look at what comes before the `>` symbol
-  - Example: `C:\Users\YourName\Documents\bookmarks>` - you're in the "bookmarks" folder
-  - If it shows `C:\Users\YourName>` - you're in your home folder
+  - Example: `C:\Users\YourName\groupmrk>` - you're in the "groupmrk" folder
   
 - **macOS/Linux**: In Terminal, look at what comes before `$`
-  - Example: `~/Documents/bookmarks$` - you're in the "bookmarks" folder
-  - If it shows `~` or `$HOME` - you're in your home folder
+  - Example: `~/groupmrk$` - you're in the "groupmrk" folder
 
 **To change folder:**
-- **Windows**: `cd Documents\bookmarks` (use backslash `\`)
-- **macOS/Linux**: `cd Documents/bookmarks` (use forward slash `/`)
+- **Windows**: `cd groupmrk` (or `cd Documents\groupmrk`)
+- **macOS/Linux**: `cd groupmrk` (or `cd Documents/groupmrk`)
+
+**Tip**: If your bookmarks file is in "Downloads", go to Downloads first!
 
 ### 1. Organize Your Bookmarks
 
@@ -230,16 +234,15 @@ Voce nao precisa saber programacao para usar!
 
 ### Como Instalar (Passo a Passo)
 
-**IMPORTANTE: Onde Executar o Comando de Instalacao**
+**IMPORTANTE: Instalacao vs Execucao**
 
-Antes de instalar, certifique-se de estar em uma pasta adequada:
+Ha dois momentos diferentes:
 
-- **Windows**: Ao abrir o Prompt de Comando, voce comeca na sua pasta de usuario (como `C:\Users\SeuNome`)
-- **macOS/Linux**: Ao abrir o Terminal, voce comeca na sua pasta pessoal (como `~` ou `/Users/SeuNome`)
+1. **Instalando** (baixando o programa): Voce pode fazer isso de qualquer lugar - seu terminal comeca na sua pasta pessoal, e tudo bem!
 
-Esta tudo bem! Voce pode executar o comando de instalacao de la. O programa sera instalado automaticamente.
+2. **Executando** (usando o programa): Voce precisa ir para a pasta onde esta o arquivo de favoritos!
 
-Escolha seu computador abaixo e siga os passos:
+Escolha seu computador abaixo para instalar:
 
 #### Windows
 
@@ -329,20 +332,25 @@ Escolha seu computador abaixo e siga os passos:
 
 ### IMPORTANTE: Onde Executar os Comandos
 
-Antes de executar qualquer comando, voce precisa estar na pasta correta!
+Antes de executar qualquer comando, voce precisa estar na **pasta onde esta o arquivo de favoritos**!
+
+Se voce baixou o repositorio para organizar seus favoritos:
+1. Extraia o repositorio para uma pasta (como "groupmrk" ou "favoritos")
+2. Coloque seu arquivo bookmarks.html nessa mesma pasta
+3. Navegue ate essa pasta no seu terminal
 
 **Verificar sua pasta atual:**
 - **Windows**: No Prompt de Comando, olhe o que vem antes do simbolo `>`
-  - Exemplo: `C:\Users\SeuNome\Documentos\favoritos>` - voce esta na pasta "favoritos"
-  - Se mostrar `C:\Users\SeuNome>` - voce esta na pasta pessoal
-
+  - Exemplo: `C:\Users\SeuNome\groupmrk>` - voce esta na pasta "groupmrk"
+  
 - **macOS/Linux**: No Terminal, olhe o que vem antes de `$`
-  - Exemplo: `~/Documents/bookmarks$` - voce esta na pasta "bookmarks"
-  - Se mostrar `~` ou `$HOME` - voce esta na pasta pessoal
+  - Exemplo: `~/groupmrk$` - voce esta na pasta "groupmrk"
 
 **Para mudar de pasta:**
-- **Windows**: `cd Documentos\favoritos` (use barra invertida `\`)
-- **macOS/Linux**: `cd Documents/favoritos` (use barra normal `/`)
+- **Windows**: `cd groupmrk` (ou `cd Documentos\groupmrk`)
+- **macOS/Linux**: `cd groupmrk` (ou `cd Documents/groupmrk`)
+
+**Dica**: Se seu arquivo de favoritos estiver em "Downloads", va para Downloads primeiro!
 
 ### 1. Organizar seus Favoritos
 
