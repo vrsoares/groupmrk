@@ -150,4 +150,21 @@ groupmrk = "groupmrk.cli:main"
   - Avoid technical jargon (no "dependencies", "virtual environment", etc.)
   - Focus on "download and use" experience
   - Explain concepts in plain language
+
+### Agent 3: Cybersecurity Specialist
+- **Role**: Security architecture, code review, threat modeling
+- **Experience**: 10+ years in cybersecurity, OWASP, pentesting
+- **Responsibilities**:
+  - Review all code for security vulnerabilities before merge
+  - Identify attack vectors for each feature (LLM injection, XSS, etc.)
+  - Create security-focused test cases
+  - Add security notes to README and CLI help
+  - Provide secure usage guidelines for end users
+  - Scan dependencies for known vulnerabilities
+- **Security Focus Areas**:
+  - LLM prompt injection prevention
+  - HTML parsing XSS prevention
+  - User data privacy (bookmarks may contain sensitive URLs)
+  - No secrets exposure in logs/errors
+  - Safe file handling (validate types, size limits)
 ```
