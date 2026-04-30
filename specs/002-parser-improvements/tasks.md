@@ -11,18 +11,18 @@
 
 ## Phase 1: Setup
 
-- [ ] T001 Install httpx dependency (add to pyproject.toml if needed)
-- [ ] T002 [P] Create src/groupmrk/validator.py (empty module structure)
-- [ ] T003 [P] Create src/groupmrk/verifier.py (empty module structure)
-- [ ] T004 Update src/groupmrk/__init__.py exports for new modules
+- [X] T001 Install httpx dependency (add to pyproject.toml if needed)
+- [X] T002 [P] Create src/groupmrk/validator.py (empty module structure)
+- [X] T003 [P] Create src/groupmrk/verifier.py (empty module structure)
+- [X] T004 Update src/groupmrk/__init__.py exports for new modules
 
 ## Phase 2: Foundational
 
-- [ ] T005 Extend models.py with URL value object class in src/groupmrk/models.py
-- [ ] T006 Extend models.py with ValidationResult class in src/groupmrk/models.py
-- [ ] T007 Extend models.py with URLVerificationResult class in src/groupmrk/models.py
-- [ ] T008 Extend models.py with InvalidURLLog class in src/groupmrk/models.py
-- [ ] T009 Extend BookmarkCollection with invalid_urls and unreachable_urls fields in src/groupmrk/models.py
+- [X] T005 Extend models.py with URL value object class in src/groupmrk/models.py
+- [X] T006 Extend models.py with ValidationResult class in src/groupmrk/models.py
+- [X] T007 Extend models.py with URLVerificationResult class in src/groupmrk/models.py
+- [X] T008 Extend models.py with InvalidURLLog class in src/groupmrk/models.py
+- [X] T009 Extend BookmarkCollection with invalid_urls and unreachable_urls fields in src/groupmrk/models.py
 
 ## Phase 3: User Story 1 - Validate URLs with Security Checks (P1)
 
